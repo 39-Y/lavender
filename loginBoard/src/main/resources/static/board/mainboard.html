@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8">
+<title>test1</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container-fluid">
+
+			<!-- Page Heading -->
+			<h1 class="h3 mb-2 text-gray-800">게시판</h1>
+			<div class="mb-4">
+				&nbsp&nbsp 여기 있는 모든 글은 비영리적 목적으로 쓰여지고 있습니다. 저작권적인 문제가 있을 경우 <b>y39scode@gmail.com/b>으로 연락해주세요.				
+				<div>&nbsp&nbsp All articles here are written for non-commercial purposes. 
+						If you have any copyright issues, please contact us at <b>y39scode@gmail.com</b></div>
+			</div>
+			
+			<!-- DataTales Example -->
+			<div class="card shadow mb-4">
+				<div class="card-header py-3 mainBoardHeader">
+					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
+						<div th:if="${session.logOn}">
+							<a href="/loginBoard/writeboard" 
+								 class="btn btn-primary btn-icon-split writeButton" >
+								 게시판 글쓰기</a>
+						</div>
+						
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th id="article-title">제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회</th>
+									<th th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">삭제</th>
+								</tr>
+							</thead>
+							<tbody th:if="${articleMap.articleList.size()} == 0">
+								<tr ><td colspan=4 ><div class="flexCenter">게시글이 존재하지 않습니다</div></td></tr>
+							</tbody>
+							<tbody th:if="${articleMap.articleList} != null">
+								<tr th:each="num: ${#numbers.sequence(articleMap.page*10-10,articleMap.page*10)}">
+									<div th:if="${articleMap.total>num}">
+										<div th:with="article=${articleMap.articleList[num]}">
+											<td>
+												<span th:if="${article.level}>1"> 
+													<span th:each="space:${#numbers.sequence(1, article.level-1)}">
+														&nbsp;&nbsp; </span> 
+												↳</span> 
+												<a th:href="@{/loginBoard/article(articleNO=${article.articleNO})}"
+													 th:text="${article.title}"></a>
+											</td>
+											<td>
+												<a th:href="@{/loginBoard/mainboard(id=${article.id})}" 
+													 th:text="${article.id}"></a>
+											</td>
+											<td th:text="${article.writeDate}"></td>
+											<td th:text="${article.hits}"></td>
+											<td>
+												<a th:if="${session.memberVO} != null and ${session.memberVO.id}==admin" 
+												 	 th:href="@{/loginBoard/deleteboard(articleNO=${article.articleNO})}">
+												 	 삭제</a>
+											</td>
+										</div>
+									</div>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<section class="flexCenter">
+			<div class="mainTag">
+				<span th:if="${articleMap.page>10}">
+					<a  th:onclick="'mainboardTag(' + ${articleMap.section-10} + ')'"> 이전 </a></span>
+				<span th:each="num: ${#numbers.sequence(articleMap.section-9,articleMap.last)}">
+					<a th:text="${num}" th:href="@{/loginBoard/mainboard(page=${num})}"></a>
+					<span th:if="${num}==${articleMap.section}">
+						<a th:onclick="'mainboardTag(' + ${num+1} + ')'">다음</a>
+					</span>
+				</span>
+			</div>
+		</section>
+		
+	</th:block>
+</body>
+
+</html>

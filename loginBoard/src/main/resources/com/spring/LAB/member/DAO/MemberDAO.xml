@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+												"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.LAB.member.DAO.MemberDAO">
+	<resultMap id="memResult" type="memberVO">
+      <result property="id" column="id" />
+      <result property="pw" column="pw" />
+      <result property="name" column="name" />
+      <result property="email" column="email" />
+      <result property="joinDate" column="joinDate" />
+      <result property="profileImg" column="profileImg" />
+   </resultMap> 
+   
+   
+	<select id="listMember" resultMap="memResult">
+		select * from memberInfo 
+	</select>
+	<select id="VOMember" parameterType="string" resultMap="memResult">
+		select * from memberInfo where id=#{id}
+	</select>
+	<select id="isMember" parameterType="string" resultType="string">
+		SELECT DECODE(count(*),1,'true','false') as result from memberInfo 
+			WHERE id=#{id} and pw=#{pw}
+	</select>
+	<select id="isOverlapped" parameterType="string" resultType="string">
+		SELECT DECODE(count(*),1,'not_useable','useable') as result from memberInfo 
+			WHERE id=#{id}
+	</select>
+	
+	<insert id="addMember" parameterType="memberVO">
+		insert into memberInfo(id, pw, name, email) 
+			values(#{id}, #{pw}, #{name}, #{email})
+	</insert>
+	
+	<update id="modMember" parameterType="memberVO">
+		UPDATE memberInfo SET pw=#{pw},name=#{name},email=#{email}
+			WHERE id=#{id}
+	</update>
+	<update id="profileMember" parameterType="string">
+		UPDATE memberInfo SET profileImg=#{profileImg}
+			WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		DELETE from memberInfo where id=#{id}
+	</delete>
+</mapper>

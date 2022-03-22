@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<body>
+	<th:block layout:fragment="content">
+		<script type="text/javascript" src="/edit/js/HuskyEZCreator.js"
+			charset="utf-8"></script>
+		<form action="" method="post" name="writeForm">
+			<div id="writeForm">
+				
+				<input hidden="hidden" name="id" th:value="${session.memberVO.id}"/>
+				<input hidden="hidden" name="dirName" th:value="${articleVO.dirName}"/>
+				<input hidden="hidden" name="articleNO" th:value="${articleVO.articleNO}"/>
+				<input type="text" name="title" id="articleTitle" th:value="${articleVO.title}">
+				<textarea name="content" id="writeArticle" rows="15" cols="100"
+					th:utext="${articleVO.content}">
+	     		</textarea>
+				<div class="articleSubmitDiv">
+					<input type="button" onclick="submitArticle()"
+						class="btn btn-primary btn-user btn-block " id="articleSubmit"
+						value="발행하기">
+				</div>
+			</div>
+		</form>
+
+		<script th:inline="javascript">
+        var oEditors = [];
+        nhn.husky.EZCreator.createInIFrame({
+         oAppRef: oEditors,
+         elPlaceHolder: "writeArticle",
+         sSkinURI: "/edit/SmartEditor2Skin.html",
+         fCreator: "createSEditor2"
+        });
+        
+        function submitArticle(){
+        	oEditors.getById["writeArticle"].exec("UPDATE_CONTENTS_FIELD", [])
+        	let writeForm = document.writeForm;
+        	let p = "<p>&nbsp;"
+        	let _p="</p>"
+        	let content = document.getElementById("writeArticle").value
+        	let _content = content.replaceAll(p,"");
+        	let title = writeForm.title.value;
+        	let id = writeForm.id.value;
+        	_content = _content.replaceAll(_p,"");
+        	
+        	
+					if(title.replaceAll(/\s/gi,"") == ''){
+						alert("제목을 입력해주세요.");
+					}
+        	else if(_content == '') {
+       	    alert("내용을 입력해주세요.");
+       	    oEditors.getById["writeArticle"].exec("FOCUS");
+       	    return
+       	  } 
+        	else {
+       			writeForm.method="post";
+       			writeForm.action="/loginBoard/modboard"
+       			writeForm.submit();
+       	  }
+        }
+        </script>
+	</th:block>
+</body>
+</html>

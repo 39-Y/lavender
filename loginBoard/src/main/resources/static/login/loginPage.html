@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/fragments/head :: headFragment" />
+<body class="bg-gradient-primary">
+	<div class="container">
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-12 col-md-9">
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+							<div class="col-lg-6">
+								<div class="p-5">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">
+											<b>로그인</b>
+										</h1>
+										<h1 class="h5 text-gray-900 mb-4">Lavender 계정 사용</h1>
+									</div>
+									<form name="loginForm" class="user" >
+										<div class="form-group">
+											<input name="userId" type="text" class="form-control form-control-user"
+												id="exampleInputEmail" aria-describedby="emailHelp"
+												placeholder="아이디">
+										</div>
+										<div class="form-group">
+											<input name="userPw" type="password" class="form-control form-control-user"
+												id="exampleInputPassword" placeholder="비밀번호">
+										</div>
+										<div class="notInputId">
+											아이디를 입력해 주세요
+										</div>
+										<div class="notInputPw">
+											비밀번호를 입력해 주세요
+										</div>
+										<div class="notMatch" th:if="${notMatch}">
+												아이디 또는 비밀번호가 틀렸습니다.
+										</div>
+										<input type="button" onclick="isLoginBlank()"
+											class="btn btn-primary btn-user btn-block" value="로그인"> 
+										<hr>
+										<a href="/loginBoard/register" class="btn btn-google btn-user btn-block">
+											계정 만들기 </a>
+
+									</form>
+									<hr>
+									<div class="text-center">
+										<a class="small" href="forgot-password.html">비밀번호를 잊으셨나요?</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:replace="layout/fragments/script :: scriptFragment">
+	</th:block>
+</body>
+</html>

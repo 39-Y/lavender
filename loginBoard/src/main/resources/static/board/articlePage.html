@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8">
+<title>test1</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<section class="card shadow mb-4">
+			<article class="card-header py-3 ">
+				<h3 th:text="${articleVO.title}"></h3>
+				<div th:text="${articleVO.id}"></div>
+				<div class="mainBoardHeader small">
+					<div>
+						<span th:text="${articleVO.writeDate}"></span> 
+						&nbsp&nbsp 조회 
+						<span th:text="${articleVO.hits}"></span>
+					</div>
+					<div th:if="${session.logOn} and ${articleVO.id}==${session.memberVO.id}">
+						<a th:href="@{/loginBoard/modboard(articleNO=${articleVO.articleNO})}"
+							 class="btn btn-icon-split writeButton nomalButton"> 수정</a> <a
+							 th:href="@{/loginBoard/deleteboard(articleNO=${articleVO.articleNO})}"
+							 class="btn btn-icon-split writeButton nomalButton"> 삭제</a>
+					</div>
+				</div>
+			</article>
+
+			<article class="card-body">
+				<div th:utext="${articleVO.content}"></div>
+			</article>
+		</section>
+		<section class="mainBoardHeader boardButtons">
+			<article th:if="${session.logOn}">
+				<span>
+					<a href="/loginBoard/writeboard"
+						class="btn btn-primary btn-icon-split writeButton">글쓰기</a> 
+					<a th:href="@{/loginBoard/writeboard(parentNO=${articleVO.articleNO})}" class="btn btn-icon-split writeButton nomalButton"> 답글</a>
+				</span>
+				<span th:if="${session.logOn} and ${articleVO.id}==${session.memberVO.id}">
+					<a
+					th:href="@{/loginBoard/modboard(articleNO=${articleVO.articleNO})}"
+					class="btn btn-icon-split writeButton nomalButton"> 수정</a> <a
+					th:href="@{/loginBoard/deleteboard(articleNO=${articleVO.articleNO})}"
+					class="btn btn-icon-split writeButton nomalButton"> 삭제</a>
+				</span>
+			</article>
+			<article>
+				<a href="/loginBoard/mainboard"
+					class="btn btn-icon-split writeButton nomalButton">목록</a> <a
+					href="#" class="btn btn-icon-split writeButton nomalButton">▲Top</a>
+			</article>
+		</section>
+
+	</th:block>
+</body>
+</html>

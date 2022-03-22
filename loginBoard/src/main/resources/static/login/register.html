@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/fragments/head :: headFragment" />
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+								<h1 class="h4 text-gray-900 mb-4">Lavender 계정 만들기</h1>
+							</div>
+							<form class="user" name="registerForm">
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											name="id" id="_id"placeholder="아이디">
+									</div>
+									<div class="col-sm-6">
+									<input type="button" class="btn btn-primary btn-user btn-block"
+											onclick="isOverlapped()" value="중복확인" id="btnDuplicate">
+									</div>
+								</div>
+								<div class="regNotInputId">아이디를 입력해주세요</div>
+								<div class="regNotCheckedId">아이디 중복검사를 해주세요</div>
+								<div id="message">사용할 수 없는 ID입니다</div>
+								<div class="form-group">
+									<input type="text" class="form-control form-control-user"
+										name="name" placeholder="이름">
+								</div>
+								<div class="regNotInputName">이름을 입력해주세요</div>
+								<div class="form-group">
+									<input type="email" class="form-control form-control-user"
+										name="email" placeholder="이메일">
+								</div>
+								<div class="regNotInputEmail">이메일을 입력해주세요</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="password" class="form-control form-control-user"
+											name="pw" placeholder="비밀번호">
+									</div>
+									<div class="col-sm-6">
+										<input type="password" class="form-control form-control-user"
+											 id="pwCheck" placeholder="비밀번호 확인">
+									</div>
+								</div>
+								<div class="regNotEnoughPw">비밀번호는 6자리 이상이여야 합니다</div>
+								<div class="regNotmatchPw">비밀번호가 일치하지 않습니다</div>
+								<div class="regNotInputPw">비밀번호를 입력해주세요</div>
+								
+								<input type="button" onclick="isRegisterOk()" value="회원가입" class="btn btn-primary btn-user btn-block">
+									
+								
+							</form>
+							<hr>
+							<div class="text-center">
+							</div>
+							<div class="text-center">
+								<a class="small" href="/loginBoard/nidlogin">계정을 이미 가지고 있나요?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<th:block th:replace="layout/fragments/script :: scriptFragment">
+</body>
+</html>
