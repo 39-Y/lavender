@@ -41,7 +41,7 @@ public class ArticleControllerImpl implements ArticleController{
 	@Autowired ArticleService articleService;
 
 	@Override
-	@GetMapping(value="/loginBoard/mainboard")
+	@GetMapping(value="/lavender/mainboard")
 	public ModelAndView mainBoardPage(HttpServletRequest request) {
 		try {
 			List<ArticleVO> articleList;
@@ -82,7 +82,7 @@ public class ArticleControllerImpl implements ArticleController{
 	}
 
 	@Override
-	@GetMapping(value="/loginBoard/article")
+	@GetMapping(value="/lavender/article")
 	public ModelAndView viewArticle(@RequestParam(value="articleNO")long articleNO) {
 		articleService.upHits(articleNO);
 		ModelAndView modelAndView = new ModelAndView("board/articlePage");
@@ -92,7 +92,7 @@ public class ArticleControllerImpl implements ArticleController{
 	}
 
 	@Override
-	@PostMapping(value="/loginBoard/writeboard")
+	@PostMapping(value="/lavender/writeboard")
 	public ModelAndView writeArticle(HttpServletRequest request, ArticleVO articleVO) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("dirName") !=null) {
@@ -109,16 +109,16 @@ public class ArticleControllerImpl implements ArticleController{
 			session.removeAttribute("dirName");
 		}
 		long articleNO = articleService.addArticle(articleVO);
-		ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/article?articleNO="+articleNO);
+		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/article?articleNO="+articleNO);
 		return modelAndView;
 	}
 
-	@GetMapping(value="/loginBoard/writeboard")
+	@GetMapping(value="/lavender/writeboard")
 	public ModelAndView writeArticlePage(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("board/writePage");
 		HttpSession session = request.getSession();
 		if(session.getAttribute("memberVO") == null) {
-			modelAndView.setViewName("redirect:/loginBoard/nidlogin");
+			modelAndView.setViewName("redirect:/lavender/nidlogin");
 			return modelAndView;
 		}
 		if(session.getAttribute("dirName") != null)
@@ -133,7 +133,7 @@ public class ArticleControllerImpl implements ArticleController{
 	}
 
 	@Override
-	@PostMapping(value="/loginBoard/modboard")
+	@PostMapping(value="/lavender/modboard")
 	public ModelAndView modArticle(HttpServletRequest request, ArticleVO articleVO) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("dirName") !=null) { 
@@ -152,11 +152,11 @@ public class ArticleControllerImpl implements ArticleController{
 		}
 		long articleNO = articleVO.getArticleNO();
 		articleService.modArticle(articleVO);
-		ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/article?articleNO="+articleNO);
+		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/article?articleNO="+articleNO);
 		return modelAndView;
 	}
 
-	@GetMapping(value="/loginBoard/modboard")
+	@GetMapping(value="/lavender/modboard")
 	public ModelAndView modArticlePage(HttpServletRequest request, 
 			@RequestParam(value="articleNO")long articleNO) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -175,16 +175,16 @@ public class ArticleControllerImpl implements ArticleController{
 				modelAndView.addObject("articleVO",articleVO);
 			}
 			else 
-				modelAndView.setViewName("redirect:/loginBoard/article?articleNO="+articleNO);
+				modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
 		} catch (Exception e) {
-			modelAndView.setViewName("redirect:/loginBoard/article?articleNO="+articleNO);
+			modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
 		}
 
 		return modelAndView;
 	}
 
 	@Override
-	@GetMapping("/loginBoard/deleteboard")
+	@GetMapping("/lavender/deleteboard")
 	public ModelAndView deleteArticle(HttpServletRequest request,
 			@RequestParam(value="articleNO") long articleNO) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -198,17 +198,17 @@ public class ArticleControllerImpl implements ArticleController{
 				articleService.deleteArticle(articleNO);
 				if(articleVO.getDirName() !=null)
 					deleteImgFile("c:/img/article/",articleVO.getDirName());
-				modelAndView.setViewName("redirect:/loginBoard/mainboard");
+				modelAndView.setViewName("redirect:/lavender/mainboard");
 			}
-			else modelAndView.setViewName("redirect:/loginBoard/article?articleNO="+articleNO);
+			else modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
 		} catch (Exception e) {
-			modelAndView.setViewName("redirect:/loginBoard/article?articleNO="+articleNO);
+			modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
 		}
 
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/loginBoard/articleboard/imgupload", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/lavender/articleboard/imgupload", method= {RequestMethod.GET, RequestMethod.POST})
 	public void imgUpload(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/x-www-form-urlencoded; charset=utf-8");
 		PrintWriter out =  res.getWriter();
@@ -234,7 +234,7 @@ public class ArticleControllerImpl implements ArticleController{
 	}
 	
 	
-	@GetMapping(value="/loginBoard/test")
+	@GetMapping(value="/lavender/test")
 	public ModelAndView test() {
 		List<ArticleVO> articleList= (List<ArticleVO>) articleService.writedAllArticle("lee");
 		System.out.println(articleList.size());

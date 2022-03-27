@@ -29,7 +29,7 @@ public class MemberControllerImpl implements MemberController{
 
 	MemberVO memberVO = new MemberVO();
 	@Override
-	@RequestMapping(value="/loginBoard/main.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/lavender/main.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView listMember(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		List<MemberVO> memberList = memberService.listMember();
@@ -39,7 +39,7 @@ public class MemberControllerImpl implements MemberController{
 	}
 
 	@Override
-	@PostMapping(value="/loginBoard/nidlogin")
+	@PostMapping(value="/lavender/nidlogin")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		String id = (String)request.getParameter("userId");
@@ -62,7 +62,7 @@ public class MemberControllerImpl implements MemberController{
 					System.out.println("profile null");
 					session.setAttribute("imgUrl", null);
 				}
-				view="redirect:/loginBoard/main.do";
+				view="redirect:/lavender/main.do";
 				}
 			else
 				modelAndView.addObject("notMatch", true);
@@ -70,39 +70,40 @@ public class MemberControllerImpl implements MemberController{
 		modelAndView.setViewName(view);
 		return modelAndView;
 	}
-	@GetMapping(value="/loginBoard/nidlogin")
+	@GetMapping(value="/lavender/nidlogin")
 	public ModelAndView logInPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		ModelAndView modelAndView = new ModelAndView();
 		if(session.getAttribute("memberVO")!=null)
-			modelAndView.setViewName("redirect:/loginBoard/main.do");
+			modelAndView.setViewName("redirect:/lavender/main.do");
 		else
 			modelAndView.setViewName("login/loginPage");
 		return modelAndView;
 	}
 	
 	@Override
-	@PostMapping(value="/loginBoard/register")
+	@PostMapping(value="/lavender/register")
 	public ModelAndView register(HttpServletRequest request, MemberVO memberVO) throws Exception {
 		memberService.addMember(memberVO);
 		HttpSession session = request.getSession();
 		session.setAttribute("memberVO", memberVO);
-		ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/profile?register=new");
+		session.setAttribute("logOn", true);
+		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/profile?register=new");
 		return modelAndView;
 	}
-	@GetMapping(value="/loginBoard/register")
+	@GetMapping(value="/lavender/register")
 	public ModelAndView registerPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("login/register");
 		return modelAndView;
 	}
 	@ResponseBody
-	@PostMapping(value="/loginBoard/register/check")
+	@PostMapping(value="/lavender/register/check")
 	public String isOverlapped(String id) throws Exception {
 		String result = memberService.isOverlapped(id);
 		return result;
 	}
 	
-	@PostMapping(value="/loginBoard/profile")
+	@PostMapping(value="/lavender/profile")
 	public ModelAndView setProfileImg(@RequestParam(value="profileImg") MultipartFile profileFile,
 																		@RequestParam(value="id") String id,
 																		HttpServletRequest request)
@@ -128,14 +129,14 @@ public class MemberControllerImpl implements MemberController{
 		System.out.println("profile-"+imgUrl);
 		session.setAttribute("imgUrl", imgUrl);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/main.do");
+		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/main.do");
 		return modelAndView;
 	}
 	
-	@GetMapping(value="/loginBoard/profile")
+	@GetMapping(value="/lavender/profile")
 		public ModelAndView profilePage(HttpServletRequest request) {
 			HttpSession session = request.getSession();
-			ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/nidlogin");
+			ModelAndView modelAndView = new ModelAndView("redirect:/lavender/nidlogin");
 			if(session.getAttribute("memberVO") != null) 
 				modelAndView.setViewName("login/profilePage");
 			return modelAndView;
@@ -143,7 +144,7 @@ public class MemberControllerImpl implements MemberController{
 	
 	
 	@Override
-	@PostMapping(value="/loginBoard/modmember")
+	@PostMapping(value="/lavender/modmember")
 	public ModelAndView modMember(HttpServletRequest request, MemberVO memberVO) throws Exception {
 		HttpSession session = request.getSession();
 		MemberVO _memberVO = (MemberVO)session.getAttribute("memberVO");
@@ -166,46 +167,60 @@ public class MemberControllerImpl implements MemberController{
 		return modelAndView;
 	}
 	
-	@GetMapping(value="/loginBoard/modmember")
+	@GetMapping(value="/lavender/modmember")
 	public ModelAndView modMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		ModelAndView modelAndView = new ModelAndView();
 		if(session.getAttribute("memberVO")!=null)
 			modelAndView.setViewName("login/modPage");
 		else
-			modelAndView.setViewName("redirect:/loginBoard/nidlogin");
+			modelAndView.setViewName("redirect:/lavender/nidlogin");
 		return modelAndView;
 	}
 	@ResponseBody
-	@PostMapping(value="/loginBoard/modmember/check")
+	@PostMapping(value="/lavender/modmember/check")
 	public boolean isRightPw(HttpServletRequest request, String id, String pw) throws Exception {
 		boolean result = memberService.isMember(id, pw);
 		return result;
 	}
 	
-	@GetMapping(value="/loginBoard/logout")
+	@GetMapping(value="/lavender/logout")
 		public ModelAndView logOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		ModelAndView modelAndview = new ModelAndView("redirect:/loginBoard/main.do");
+		ModelAndView modelAndview = new ModelAndView("redirect:/lavender/main.do");
 		return modelAndview;
 	}
 
 	@Override
-	@GetMapping(value="/loginBoard/deletemember")
+	@GetMapping(value="/lavender/deletemember")
 	public ModelAndView deleteMember(HttpServletRequest request) throws Exception {
 		String id=request.getParameter("id");
 		System.out.println("id: "+id);
+		String absolPath = "c:/img/profile/";
+		File imgPath = new File(absolPath+id);
+			while(imgPath.exists()) {
+				File[] imgFiles = imgPath.listFiles();
+				if(imgFiles !=null) {
+					for(File file : imgFiles) {
+						file.delete();
+						System.out.println(file+"삭제");
+					}
+				}
+				System.gc();
+				System.runFinalization();
+				imgPath.delete();
+		}
 		memberService.deleteMember(id);
-		ModelAndView modelAndview = new ModelAndView("redirect:/loginBoard/nidlogin");
+		ModelAndView modelAndview = new ModelAndView("redirect:/lavender/nidlogin");
 		return modelAndview;
 	}
 	@Override
-	@RequestMapping(value="/loginBoard/admin", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/lavender/admin", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView admin(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		HttpSession session = request.getSession();
-		ModelAndView modelAndView = new ModelAndView("redirect:/loginBoard/main.do");
+		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/main.do");
 		
 		if(session.getAttribute("memberVO") != null) {
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");

@@ -12,9 +12,9 @@
 
 			<!-- Page Heading -->
 			<h1 class="h3 mb-2 text-gray-800">게시판</h1>
-			<div class="mb-4">
-				&nbsp&nbsp 여기 있는 모든 글은 비영리적 목적으로 쓰여지고 있습니다. 저작권적인 문제가 있을 경우 <b>y39scode@gmail.com/b>으로 연락해주세요.				
-				<div>&nbsp&nbsp All articles here are written for non-commercial purposes. 
+			<div class="mb-4 small">
+				여기 있는 모든 글은 비영리적 목적으로 쓰여지고 있습니다. 저작권적인 문제가 있을 경우 <b>y39scode@gmail.com</b>으로 연락해주세요.				
+				<div>All articles are written for non-commercial purposes. 
 						If you have any copyright issues, please contact us at <b>y39scode@gmail.com</b></div>
 			</div>
 			
@@ -23,7 +23,7 @@
 				<div class="card-header py-3 mainBoardHeader">
 					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
 						<div th:if="${session.logOn}">
-							<a href="/loginBoard/writeboard" 
+							<a href="/lavender/writeboard" 
 								 class="btn btn-primary btn-icon-split writeButton" >
 								 게시판 글쓰기</a>
 						</div>
@@ -54,18 +54,17 @@
 													<span th:each="space:${#numbers.sequence(1, article.level-1)}">
 														&nbsp;&nbsp; </span> 
 												↳</span> 
-												<a th:href="@{/loginBoard/article(articleNO=${article.articleNO})}"
+												<a th:href="@{/lavender/article(articleNO=${article.articleNO})}"
 													 th:text="${article.title}"></a>
 											</td>
 											<td>
-												<a th:href="@{/loginBoard/mainboard(id=${article.id})}" 
+												<a th:href="@{/lavender/mainboard(id=${article.id})}" 
 													 th:text="${article.id}"></a>
 											</td>
 											<td th:text="${article.writeDate}"></td>
 											<td th:text="${article.hits}"></td>
-											<td>
-												<a th:if="${session.memberVO} != null and ${session.memberVO.id}==admin" 
-												 	 th:href="@{/loginBoard/deleteboard(articleNO=${article.articleNO})}">
+											<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
+												<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">
 												 	 삭제</a>
 											</td>
 										</div>
@@ -82,7 +81,7 @@
 				<span th:if="${articleMap.page>10}">
 					<a  th:onclick="'mainboardTag(' + ${articleMap.section-10} + ')'"> 이전 </a></span>
 				<span th:each="num: ${#numbers.sequence(articleMap.section-9,articleMap.last)}">
-					<a th:text="${num}" th:href="@{/loginBoard/mainboard(page=${num})}"></a>
+					<a th:text="${num}" th:href="@{/lavender/mainboard(page=${num})}"></a>
 					<span th:if="${num}==${articleMap.section}">
 						<a th:onclick="'mainboardTag(' + ${num+1} + ')'">다음</a>
 					</span>

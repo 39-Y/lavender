@@ -16,7 +16,7 @@
 								<h1 class="h4 text-gray-900 mb-4">개인정보 수정</h1>
 							</div>
 
-							<form name="modForm" class="user" action="/loginBoard/register"
+							<form name="modForm" class="user" action="/lavender/register"
 								method="post">
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
@@ -61,7 +61,7 @@
 									<input type="button" value="변경하기" onclick="modMember()"
 										class="btn btn-primary btn-user btn-block">
 								 <div id="deleteMemberDiv"> 
-								 	<a th:href="@{/loginBoard/deletemember(id=${session.memberVO.id})}" 
+								 	<a th:href="@{/lavender/deletemember(id=${session.memberVO.id})}" 
 								 		class="mb-1 small text-center" id="deleteMember">탈퇴하기</a>
 								 </div></article>
 								

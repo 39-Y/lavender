@@ -69,7 +69,7 @@ function isLoginBlank() {
 				}
 				else{
 					loginForm.method = "post";
-					loginForm.action= "/loginBoard/nidlogin";
+					loginForm.action= "/lavender/nidlogin";
 					loginForm.submit();
 				}
 			}
@@ -114,7 +114,7 @@ function isLoginBlank() {
 
 				else{
 					registerForm.method = "post";
-					registerForm.action= "/loginBoard/register";
+					registerForm.action= "/lavender/register";
 					registerForm.submit();
 				}
 			}
@@ -131,7 +131,7 @@ function isLoginBlank() {
 			    $.ajax({
 			       type:"post",
 			       async:true,  
-			       url:"/loginBoard/register/check",
+			       url:"/lavender/register/check",
 			       dataType:"text",
 			       data: {id:_id},
 			    }).done(function (result){
@@ -154,7 +154,7 @@ function isLoginBlank() {
 			$.ajax({
 				type:"post",
 			  async:true,  
-			  url:"/loginBoard/modmember/check",
+			  url:"/lavender/modmember/check",
 			  dataType:"text",
 			  data: {id:_id, pw:pwCheck},
 			}).done(function(result){
@@ -183,7 +183,7 @@ function isLoginBlank() {
 					modForm.name.value = name;
 					modForm.email.value = email;
 					modForm.method = "post";
-					modForm.action= "/loginBoard/modmember";
+					modForm.action= "/lavender/modmember";
 					modForm.submit();
 					}
 			
@@ -208,7 +208,7 @@ function isLoginBlank() {
 					}
 				else{
 					profileForm.method = "post";
-					profileForm.action= "/loginBoard/profile";
+					profileForm.action= "/lavender/profile";
 					profileForm.submit();
 				}
 			}

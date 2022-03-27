@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LoginAndBoardApplication {
+public class lavenderApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LoginAndBoardApplication.class, args);
+		SpringApplication.run(lavenderApplication.class, args);
 	}
 
 }
