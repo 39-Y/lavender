@@ -43,7 +43,11 @@
 								</tr>
 							</thead>
 							<tbody th:if="${boardIdxMap} == null">
-								<tr ><td colspan=4 ><div class="flexCenter">게시글이 존재하지 않습니다</div></td></tr>
+								<tr>
+									<td colspan=4 >
+										<div class="flexCenter">게시글이 존재하지 않습니다</div>
+									</td>
+								</tr>
 							</tbody>
 							<tbody th:if="${boardIdxMap} != null">
 								<tr th:each="article:${boardIdxMap.articleList}">
@@ -73,14 +77,17 @@
 			</div>
 		</div>
 		<section class="flexCenter">
-			<div class="mainTag">
-				<span th:if="${articleMap.page>10}">
-					<a  th:onclick="'mainboardTag(' + ${articleMap.section-10} + ')'"> 이전 </a></span>
-				<span th:each="num: ${#numbers.sequence(articleMap.section-9,articleMap.last)}">
-					<a th:text="${num}" th:href="@{/lavender/mainboard(page=${num})}"></a>
-					<span th:if="${num}==${articleMap.section}">
-						<a th:onclick="'mainboardTag(' + ${num+1} + ')'">다음</a>
-					</span>
+			<div class="mainTag" th:if="${boardIdxMap != null}">
+				<span th:if="${boardIdxMap.prePage != 0}">
+					<a th:href="@{/lavender/mainboard(page=${boardIdxMap.prePage})}">
+						이전 </a>
+				</span>
+				<span th:each="page: ${boardIdxMap.pageNumList}">
+					<a th:text="${page}" th:href="@{/lavender/mainboard(page=${page})}"></a>
+				</span>
+				<span th:if="${boardIdxMap.nextPage != 0}">
+					<a th:href="@{/lavender/mainboard(page=${boardIdxMap.nextPage})}">
+						다음</a>
 				</span>
 			</div>
 		</section>

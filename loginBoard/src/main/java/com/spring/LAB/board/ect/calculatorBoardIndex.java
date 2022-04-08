@@ -12,12 +12,14 @@ public class calculatorBoardIndex {
 	public int articleEndNum;
 	private int pageStartNum;
 	private int pageEndNum;
+	private int sectionCurrentNum;
 	private int tempStartNum;
 	private int tempEndNum;
 	
 	public calculatorBoardIndex(int pageCurrentNum, int articlesTotalNum) {
 		this.articlesTotalNum = articlesTotalNum;
-		this.pageCurrentNum = pageCurrentNum;                        
+		this.pageCurrentNum = pageCurrentNum;
+		sectionCurrentNum = (pageCurrentNum-1)/10+1;
 		setPageStartEndNum();
 		setArticleStartEndNum();
 	}
@@ -29,9 +31,23 @@ public class calculatorBoardIndex {
 		}
 		return pageIdxNums;
 	}
-
+	
+	public int getNextButton() {
+		int sectionTotalNum = (articlesTotalNum-1)/100+1;
+		int nextPage=0;
+		if(sectionCurrentNum < sectionTotalNum) 
+			nextPage = pageEndNum+1;
+		return nextPage;
+	}
+	
+	public int getPreButton() {
+		int prePage = 0;
+		if(sectionCurrentNum > 1) 
+			prePage = pageStartNum-1;
+		return prePage;
+	}
+	
 	private void setPageStartEndNum() {
-		int sectionCurrentNum = (pageCurrentNum-1)/10+1;
 		int pagesTotalNum = (articlesTotalNum-1)/10+1;
 		calculateStartEndPoint(sectionCurrentNum, pagesTotalNum);
 		pageStartNum = tempStartNum;

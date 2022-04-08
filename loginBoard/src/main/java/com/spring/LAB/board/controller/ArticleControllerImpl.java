@@ -56,9 +56,11 @@ public class ArticleControllerImpl implements ArticleController{
 			int startIdx = boardIdx.articleStartNum;
 			int endIdx = boardIdx.articleEndNum;
 			List<ArticleVO> articleList = articleService.viewArticlePage(startIdx, endIdx);
-			Map<String, List> boardIdxMap = new HashMap<String, List>();
+			Map boardIdxMap = new HashMap();
 			boardIdxMap.put("pageNumList", pageNumList);
 			boardIdxMap.put("articleList", articleList);
+			boardIdxMap.put("nextPage", boardIdx.getNextButton());
+			boardIdxMap.put("prePage", boardIdx.getPreButton());
 			modelAndView.addObject("boardIdxMap", boardIdxMap);
 			return modelAndView;
 	}
