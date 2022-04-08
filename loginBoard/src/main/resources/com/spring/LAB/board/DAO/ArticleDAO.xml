@@ -11,7 +11,7 @@
 	<parameterMap type="com.spring.LAB.board.vo.ArticleVO"
 		id="articleVO" />
 	<select id="viewAllArticle"
-		resultType="com.spring.LAB.board.vo.ArticleVO">
+	 resultType="com.spring.LAB.board.vo.ArticleVO">
 		SELECT level,
 		articleNO, parentNO, title, writeDate, id, hits
 		FROM articleBoard
@@ -19,6 +19,29 @@
 		CONNECT BY PRIOR articleNO=parentNO
 		ORDER SIBLINGS BY articleNO DESC
 	</select>
+	
+	<select id="viewArticlePage" parameterType="int" 
+	 resultType="com.spring.LAB.board.vo.ArticleVO">
+		SELECT * 
+ 		from (SELECT LEVEL,
+        articleNO,
+        parentNO,
+        LPAD(' ', 4*(LEVEL-1)) || title title,
+        content,
+        writeDate,
+        id,
+        hits
+        FROM articleBoard
+        START WITH parentNO=0
+        CONNECT BY PRIOR articleNO=parentNO
+        ORDER SIBLINGS BY articleNO DESC)
+		where rownum between  #{startIdx} And #{endIdx}
+	</select>
+	
+	<select id="countAllArticle" resultType="int">
+		select count(*) from articleBoard
+	</select>
+	
 	<select id="viewArticle" parameterType="_long" 
 	 resultType="com.spring.LAB.board.vo.ArticleVO">
 		select * from articleBoard where articleNO = #{articleNO}

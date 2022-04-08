@@ -48,4 +48,15 @@ public class ArticelServiceImpl implements ArticleService{
 		return writedArticleList;
 	}
 
+	@Override
+	public List<ArticleVO> viewArticlePage (int startIdx, int endIdx){
+		List<ArticleVO> pageArticleList = articleDAO.viewArticlePage(startIdx, endIdx);
+		return pageArticleList;
+	}
+	
+	@Override
+	public int countAllArticle() {
+		int articlesTotal = articleDAO.countAllArticle();
+		return articlesTotal;
+	}
 }

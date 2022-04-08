@@ -50,7 +50,7 @@
 
 				<!-- Nav Item - User Information -->
 				<li class="nav-item dropdown no-arrow" 
-					th:if="${session.logOn==true}">
+					th:if="${session.memberVO != null}">
 					<a class="nav-link dropdown-toggle" href="#" id="userDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> 
@@ -82,7 +82,7 @@
 							로그아웃
 						</a>
 					</div></li>
-					<li th:if="${session.logOn!=true}" >
+					<li th:if="${session.memberVO == null}" >
 						<a href="http://localhost:8080/lavender/nidlogin"
 							class="btn btn-primary btn-icon-split btn-sm">
 							<span class="text">로그인</span></a>

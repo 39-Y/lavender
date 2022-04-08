@@ -22,7 +22,7 @@
 			<div class="card shadow mb-4">
 				<div class="card-header py-3 mainBoardHeader">
 					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
-						<div th:if="${session.logOn}">
+						<div th:if="${session.memberVO != null}">
 							<a href="/lavender/writeboard" 
 								 class="btn btn-primary btn-icon-split writeButton" >
 								 게시판 글쓰기</a>
@@ -42,13 +42,11 @@
 									<th th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">삭제</th>
 								</tr>
 							</thead>
-							<tbody th:if="${articleMap.articleList.size()} == 0">
+							<tbody th:if="${boardIdxMap} == null">
 								<tr ><td colspan=4 ><div class="flexCenter">게시글이 존재하지 않습니다</div></td></tr>
 							</tbody>
-							<tbody th:if="${articleMap.articleList} != null">
-								<tr th:each="num: ${#numbers.sequence(articleMap.page*10-10,articleMap.page*10)}">
-									<div th:if="${articleMap.total>num}">
-										<div th:with="article=${articleMap.articleList[num]}">
+							<tbody th:if="${boardIdxMap} != null">
+								<tr th:each="article:${boardIdxMap.articleList}">
 											<td>
 												<span th:if="${article.level}>1"> 
 													<span th:each="space:${#numbers.sequence(1, article.level-1)}">
@@ -67,8 +65,6 @@
 												<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">
 												 	 삭제</a>
 											</td>
-										</div>
-									</div>
 								</tr>
 							</tbody>
 						</table>

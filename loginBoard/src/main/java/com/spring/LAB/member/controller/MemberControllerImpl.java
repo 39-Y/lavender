@@ -51,7 +51,6 @@ public class MemberControllerImpl implements MemberController{
 			if(logOn) {
 				memberVO = memberService.VOMember(id);
 				HttpSession session = request.getSession();
-				session.setAttribute("logOn", logOn);
 				session.setAttribute("memberVO", memberVO);
 				if(memberVO.getProfileImg() != null) {
 					String imgUrl = "/img/profile/"+memberVO.getId()+"/"+memberVO.getProfileImg();
@@ -87,7 +86,6 @@ public class MemberControllerImpl implements MemberController{
 		memberService.addMember(memberVO);
 		HttpSession session = request.getSession();
 		session.setAttribute("memberVO", memberVO);
-		session.setAttribute("logOn", true);
 		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/profile?register=new");
 		return modelAndView;
 	}
@@ -123,7 +121,6 @@ public class MemberControllerImpl implements MemberController{
 		
 		memberService.profileMember(profileImg, id);
 		memberVO = memberService.VOMember(id);
-		session.setAttribute("logOn", true);
 		session.setAttribute("memberVO", memberVO);
 		String imgUrl = "/img/profile/"+memberVO.getId()+"/"+memberVO.getProfileImg();
 		System.out.println("profile-"+imgUrl);
@@ -195,6 +192,7 @@ public class MemberControllerImpl implements MemberController{
 	@Override
 	@GetMapping(value="/lavender/deletemember")
 	public ModelAndView deleteMember(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
 		String id=request.getParameter("id");
 		System.out.println("id: "+id);
 		String absolPath = "c:/img/profile/";
@@ -212,6 +210,7 @@ public class MemberControllerImpl implements MemberController{
 				imgPath.delete();
 		}
 		memberService.deleteMember(id);
+		session.invalidate();
 		ModelAndView modelAndview = new ModelAndView("redirect:/lavender/nidlogin");
 		return modelAndview;
 	}

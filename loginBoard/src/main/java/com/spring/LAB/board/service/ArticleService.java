@@ -12,4 +12,6 @@ public interface ArticleService {
 	public void modArticle(ArticleVO articleVO);
 	public void deleteArticle(long articleNO);
 	public List<ArticleVO> writedAllArticle(String id);
+	public List<ArticleVO> viewArticlePage(int startIdx, int endIdx);
+	public int countAllArticle();
 	}

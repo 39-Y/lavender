@@ -14,4 +14,6 @@ public interface ArticleDAO {
 	public ArticleVO viewArticle(long articleNO) throws DataAccessException;
 	public void deleteArticle(long articleNO) throws DataAccessException;
 	public List<ArticleVO> writedAllArticle(String id) throws DataAccessException;
+	public List<ArticleVO> viewArticlePage(int startIdx, int endIdx) throws DataAccessException;
+	public int countAllArticle() throws DataAccessException;
 }

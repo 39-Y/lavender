@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.LAB.board.ect.calculatorBoardIndex;
 import com.spring.LAB.board.service.ArticleService;
 import com.spring.LAB.board.vo.ArticleVO;
 import com.spring.LAB.member.vo.MemberVO;
@@ -43,44 +45,30 @@ public class ArticleControllerImpl implements ArticleController{
 	@Override
 	@GetMapping(value="/lavender/mainboard")
 	public ModelAndView mainBoardPage(HttpServletRequest request) {
-		try {
-			List<ArticleVO> articleList;
-		if(request.getParameter("id") != null)
-			articleList= (List<ArticleVO>) articleService.writedAllArticle(request.getParameter("id"));
-		else 
-			articleList= articleService.viewAllArticle();
-		
-		int totArt = articleList.size();
-		int totPage = totArt/10+1;
-		int page = 1;
-		String _page = request.getParameter("page");
-		if(_page != null) page = Integer.parseInt(_page);
-		int section = ((page-1)/10+1)*10;
-		int last = section;
-		if(section>totPage)
-			last = totPage;
-		System.out.println("page: "+page);
-		System.out.println("totalPage: "+totPage);
-		System.out.println("totalArt: "+totArt);
-		System.out.println("section: "+section);
-		
-		Map articleMap = new HashMap();
-		articleMap.put("articleList", articleList);
-		articleMap.put("total", totArt);
-		articleMap.put("page", page);
-		articleMap.put("section", section);
-		articleMap.put("last", last);
-		ModelAndView modelAndView = new ModelAndView("board/mainboard");
-		modelAndView.addObject("articleMap", articleMap);
-		modelAndView.addObject("articleList", articleList);
-		return modelAndView;
-		} catch (Exception e) {
-			ModelAndView modelAndView = new ModelAndView("board/mainboard");
+			ModelAndView modelAndView = new ModelAndView("/board/mainboard");
+			int articlesTotal = articleService.countAllArticle();
+			if(articlesTotal == 0) {
+				return modelAndView;
+			}
+			int pageDefaultNum = 1;
+			calculatorBoardIndex boardIdx = new calculatorBoardIndex(pageDefaultNum,articlesTotal);
+			List<Integer> pageNumList = boardIdx.getPageNumList();
+			int startIdx = boardIdx.articleStartNum;
+			int endIdx = boardIdx.articleEndNum;
+			List<ArticleVO> articleList = articleService.viewArticlePage(startIdx, endIdx);
+			Map<String, List> boardIdxMap = new HashMap<String, List>();
+			boardIdxMap.put("pageNumList", pageNumList);
+			boardIdxMap.put("articleList", articleList);
+			modelAndView.addObject("boardIdxMap", boardIdxMap);
 			return modelAndView;
-		}
-		
 	}
-
+	// rest로 표현
+	@RequestMapping(value="/lavender/mainboard/{id}")
+	public Map mainBoardIdStory(@PathVariable String id) {
+		List articleList= (List<ArticleVO>) articleService.writedAllArticle(id);
+		return null;
+	}
+	
 	@Override
 	@GetMapping(value="/lavender/article")
 	public ModelAndView viewArticle(@RequestParam(value="articleNO")long articleNO) {
@@ -90,7 +78,10 @@ public class ArticleControllerImpl implements ArticleController{
 		modelAndView.addObject("articleVO",articleVO);
 		return modelAndView;
 	}
-
+	/*
+		by 양혜정 (2022.03.27)
+		html에서 전달된 게시글 정보를 Service로 전달
+	*/
 	@Override
 	@PostMapping(value="/lavender/writeboard")
 	public ModelAndView writeArticle(HttpServletRequest request, ArticleVO articleVO) {
@@ -112,24 +103,30 @@ public class ArticleControllerImpl implements ArticleController{
 		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/article?articleNO="+articleNO);
 		return modelAndView;
 	}
-
+//by 양혜정, 클라이언트가 글쓰기를 요청할시 로그인 확인 후 view return
+//(2022.03.27)
 	@GetMapping(value="/lavender/writeboard")
 	public ModelAndView writeArticlePage(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("board/writePage");
-		HttpSession session = request.getSession();
-		if(session.getAttribute("memberVO") == null) {
-			modelAndView.setViewName("redirect:/lavender/nidlogin");
+		try {
+			ModelAndView modelAndView = new ModelAndView("board/writePage");
+			HttpSession session = request.getSession();
+			if(session.getAttribute("memberVO") == null) {
+				modelAndView.setViewName("redirect:/lavender/nidlogin");
+				return modelAndView;
+			}
+			if(session.getAttribute("dirName") != null)
+				session.removeAttribute("dirName");
+			if(request.getParameter("parentNO") != null) {
+				long parentNO = Long.parseLong(request.getParameter("parentNO"));
+				System.out.println("parentNO: "+parentNO);
+				modelAndView.addObject("parentNO", parentNO);
+			}	
+			return modelAndView;
+		} catch (Exception e) {
+			ModelAndView modelAndView = new ModelAndView("redirect:/lavender/nidlogin");
 			return modelAndView;
 		}
-		if(session.getAttribute("dirName") != null)
-			session.removeAttribute("dirName");
-		if(request.getParameter("parentNO") != null) {
-			long parentNO = Long.parseLong(request.getParameter("parentNO"));
-			System.out.println("parentNO: "+parentNO);
-			modelAndView.addObject("parentNO", parentNO);
-		}	
 		
-		return modelAndView;
 	}
 
 	@Override
@@ -232,8 +229,8 @@ public class ArticleControllerImpl implements ArticleController{
 		fileInfo += "&sFileURL=" + tempAbsolPath + "/" + dirName + "/" + imgFileName;
 		out.println(fileInfo);
 	}
-	
-	
+
+
 	@GetMapping(value="/lavender/test")
 	public ModelAndView test() {
 		List<ArticleVO> articleList= (List<ArticleVO>) articleService.writedAllArticle("lee");
