@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.LAB.board.ect.calculatorBoardIndex;
+import com.spring.LAB.board.ect.BoardIndex;
 import com.spring.LAB.board.service.ArticleService;
 import com.spring.LAB.board.vo.ArticleVO;
 import com.spring.LAB.member.vo.MemberVO;
@@ -50,25 +52,19 @@ public class ArticleControllerImpl implements ArticleController{
 			if(articlesTotal == 0) {
 				return modelAndView;
 			}
-			int pageDefaultNum = 1;
-			calculatorBoardIndex boardIdx = new calculatorBoardIndex(pageDefaultNum,articlesTotal);
-			List<Integer> pageNumList = boardIdx.getPageNumList();
-			int startIdx = boardIdx.articleStartNum;
-			int endIdx = boardIdx.articleEndNum;
-			List<ArticleVO> articleList = articleService.viewArticlePage(startIdx, endIdx);
-			Map boardIdxMap = new HashMap();
-			boardIdxMap.put("pageNumList", pageNumList);
-			boardIdxMap.put("articleList", articleList);
-			boardIdxMap.put("nextPage", boardIdx.getNextButton());
-			boardIdxMap.put("prePage", boardIdx.getPreButton());
+			BoardIndex boardIdx = new BoardIndex(articlesTotal);
+			List<ArticleVO> articleList = articleService.viewArticlePage(boardIdx);
+			Map boardIdxMap = boardIdx.getBoardIdx(articleList);
 			modelAndView.addObject("boardIdxMap", boardIdxMap);
 			return modelAndView;
 	}
 	// rest로 표현
 	@RequestMapping(value="/lavender/mainboard/{id}")
-	public Map mainBoardIdStory(@PathVariable String id) {
+	public ResponseEntity<Map> mainBoardIdStory(@PathVariable String id) {
 		List articleList= (List<ArticleVO>) articleService.writedAllArticle(id);
-		return null;
+		Map test = new HashMap();
+		test.put("list", articleList);
+		return new ResponseEntity<Map>(test, HttpStatus.OK);
 	}
 	
 	@Override
@@ -234,11 +230,10 @@ public class ArticleControllerImpl implements ArticleController{
 
 
 	@GetMapping(value="/lavender/test")
-	public ModelAndView test() {
-		List<ArticleVO> articleList= (List<ArticleVO>) articleService.writedAllArticle("lee");
-		System.out.println(articleList.size());
+	public String test() {
+		String hi = "hi";
 
-		return null;
+		return hi;
 	}
 
 	private String mkDirs(String absolPath, String dirName) {

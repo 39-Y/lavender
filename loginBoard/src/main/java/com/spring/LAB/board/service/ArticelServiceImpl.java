@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.LAB.board.DAO.ArticleDAO;
+import com.spring.LAB.board.ect.BoardIndex;
 import com.spring.LAB.board.vo.ArticleVO;
 
 @Service
@@ -49,8 +50,8 @@ public class ArticelServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public List<ArticleVO> viewArticlePage (int startIdx, int endIdx){
-		List<ArticleVO> pageArticleList = articleDAO.viewArticlePage(startIdx, endIdx);
+	public List<ArticleVO> viewArticlePage (BoardIndex boardIdx){
+		List<ArticleVO> pageArticleList = articleDAO.viewArticlePage(boardIdx);
 		return pageArticleList;
 	}
 	

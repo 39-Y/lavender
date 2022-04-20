@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class calculatorBoardIndex {
+public class BoardIndex {
 	private int articlesTotalNum;
 	private int pageCurrentNum;
 	public int articleStartNum;
@@ -16,7 +16,11 @@ public class calculatorBoardIndex {
 	private int tempStartNum;
 	private int tempEndNum;
 	
-	public calculatorBoardIndex(int pageCurrentNum, int articlesTotalNum) {
+	public BoardIndex(int articlesTotalNum) {
+		this(1, articlesTotalNum);
+	}
+	
+	public BoardIndex(int pageCurrentNum, int articlesTotalNum) {
 		this.articlesTotalNum = articlesTotalNum;
 		this.pageCurrentNum = pageCurrentNum;
 		sectionCurrentNum = (pageCurrentNum-1)/10+1;
@@ -24,7 +28,7 @@ public class calculatorBoardIndex {
 		setArticleStartEndNum();
 	}
 	
-	public List<Integer> getPageNumList(){
+	private List<Integer> getPageNumList(){
 		List<Integer> pageIdxNums= new ArrayList<Integer>();
 		for(int i=pageStartNum; i<pageEndNum+1; i++) {
 			pageIdxNums.add(i);
@@ -32,7 +36,7 @@ public class calculatorBoardIndex {
 		return pageIdxNums;
 	}
 	
-	public int getNextButton() {
+	private int getNextButton() {
 		int sectionTotalNum = (articlesTotalNum-1)/100+1;
 		int nextPage=0;
 		if(sectionCurrentNum < sectionTotalNum) 
@@ -40,11 +44,20 @@ public class calculatorBoardIndex {
 		return nextPage;
 	}
 	
-	public int getPreButton() {
+	private int getPreButton() {
 		int prePage = 0;
 		if(sectionCurrentNum > 1) 
 			prePage = pageStartNum-1;
 		return prePage;
+	}
+	
+	public Map getBoardIdx(List articleList) {
+		Map boardIdxMap = new HashMap();
+		boardIdxMap.put("articleList", articleList);
+		boardIdxMap.put("pageNumList", getPageNumList());
+		boardIdxMap.put("nextPage", getNextButton());
+		boardIdxMap.put("prePage", getPreButton());
+		return boardIdxMap;
 	}
 	
 	private void setPageStartEndNum() {

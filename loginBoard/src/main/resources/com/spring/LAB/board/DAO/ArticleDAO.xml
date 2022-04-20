@@ -35,14 +35,14 @@
         START WITH parentNO=0
         CONNECT BY PRIOR articleNO=parentNO
         ORDER SIBLINGS BY articleNO DESC)
-		where rownum between  #{startIdx} And #{endIdx}
+		where rownum between  #{articleStartNum} And #{articleEndNum}
 	</select>
 	
 	<select id="countAllArticle" resultType="int">
 		select count(*) from articleBoard
 	</select>
 	
-	<select id="viewArticle" parameterType="_long" 
+	<select id="viewArticle" parameterType="com.spring.LAB.board.ect.BoardIndex" 
 	 resultType="com.spring.LAB.board.vo.ArticleVO">
 		select * from articleBoard where articleNO = #{articleNO}
 	</select>
