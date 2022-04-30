@@ -2,7 +2,7 @@ package com.spring.LAB.board.service;
 
 import java.util.List;
 
-import com.spring.LAB.board.ect.BoardIndex;
+import com.spring.LAB.board.domain.PageLinkIndex;
 import com.spring.LAB.board.vo.ArticleVO;
 
 public interface ArticleService {
@@ -13,6 +13,6 @@ public interface ArticleService {
 	public void modArticle(ArticleVO articleVO);
 	public void deleteArticle(long articleNO);
 	public List<ArticleVO> writedAllArticle(String id);
-	public List<ArticleVO> viewArticlePage(BoardIndex boardIdx);
-	public int countAllArticle();
+	public void viewArticlePage(PageLinkIndex boardIdx);
+	public int countAllArticle(String id);
 	}

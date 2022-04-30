@@ -42,15 +42,15 @@
 									<th th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">삭제</th>
 								</tr>
 							</thead>
-							<tbody th:if="${boardIdxMap} == null">
+							<tbody th:if="${pageLinkIdx.articlesTotalNum} == 0">
 								<tr>
 									<td colspan=4 >
 										<div class="flexCenter">게시글이 존재하지 않습니다</div>
 									</td>
 								</tr>
 							</tbody>
-							<tbody th:if="${boardIdxMap} != null">
-								<tr th:each="article:${boardIdxMap.articleList}">
+							<tbody th:if="${pageLinkIdx.articlesTotalNum} != 0">
+								<tr th:each="article:${pageLinkIdx.articlesList}">
 											<td>
 												<span th:if="${article.level}>1"> 
 													<span th:each="space:${#numbers.sequence(1, article.level-1)}">
@@ -63,7 +63,7 @@
 												<a th:href="@{/lavender/mainboard(id=${article.id})}" 
 													 th:text="${article.id}"></a>
 											</td>
-											<td th:text="${article.writeDate}"></td>
+											<td th:text="${article.parsedModifiedTime}"></td>
 											<td th:text="${article.hits}"></td>
 											<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
 												<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">
@@ -77,16 +77,16 @@
 			</div>
 		</div>
 		<section class="flexCenter">
-			<div class="mainTag" th:if="${boardIdxMap != null}">
-				<span th:if="${boardIdxMap.prePage != 0}">
-					<a th:href="@{/lavender/mainboard(page=${boardIdxMap.prePage})}">
+			<div class="mainTag" th:if="${pageLinkIdx.articlesTotalNum != 0}">
+				<span th:if="${pageLinkIdx.prePage > 0}">
+					<a th:href="@{/lavender/mainboard(page=${pageLinkIdx.prePage })}">
 						이전 </a>
 				</span>
-				<span th:each="page: ${boardIdxMap.pageNumList}">
+				<span th:each="page: ${pageLinkIdx.pageIdxNumsList}">
 					<a th:text="${page}" th:href="@{/lavender/mainboard(page=${page})}"></a>
 				</span>
-				<span th:if="${boardIdxMap.nextPage != 0}">
-					<a th:href="@{/lavender/mainboard(page=${boardIdxMap.nextPage})}">
+				<span th:if="${pageLinkIdx.nextPage > 0}">
+					<a th:href="@{/lavender/mainboard(page=${pageLinkIdx.nextPage})}">
 						다음</a>
 				</span>
 			</div>

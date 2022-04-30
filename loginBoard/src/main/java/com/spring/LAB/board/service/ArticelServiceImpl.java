@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.LAB.board.DAO.ArticleDAO;
-import com.spring.LAB.board.ect.BoardIndex;
+import com.spring.LAB.board.DTO.ArticleListResponseDTO;
+import com.spring.LAB.board.domain.PageLinkIndex;
 import com.spring.LAB.board.vo.ArticleVO;
 
 @Service
@@ -50,14 +51,23 @@ public class ArticelServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public List<ArticleVO> viewArticlePage (BoardIndex boardIdx){
-		List<ArticleVO> pageArticleList = articleDAO.viewArticlePage(boardIdx);
-		return pageArticleList;
+	public void viewArticlePage (PageLinkIndex boardIdx){
+		List<ArticleListResponseDTO> pageArticleList = articleDAO.viewArticlePage(boardIdx);
+		setModifiedDate(pageArticleList);
+		boardIdx.setArticlesList(pageArticleList);
+		
 	}
 	
 	@Override
-	public int countAllArticle() {
-		int articlesTotal = articleDAO.countAllArticle();
+	public int countAllArticle(String id) {
+		int articlesTotal = articleDAO.countAllArticle(id);
 		return articlesTotal;
+	}
+	
+	private void setModifiedDate(List<ArticleListResponseDTO> pageArticleList) {
+		for(ArticleListResponseDTO article:pageArticleList) {
+			article.parseModifiedDate();
+		}
+		
 	}
 }

@@ -4,7 +4,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 
-import com.spring.LAB.board.ect.BoardIndex;
+import com.spring.LAB.board.DTO.ArticleListResponseDTO;
+import com.spring.LAB.board.domain.PageLinkIndex;
 import com.spring.LAB.board.vo.ArticleVO;
 
 @Mapper
@@ -16,6 +17,6 @@ public interface ArticleDAO {
 	public ArticleVO viewArticle(long articleNO) throws DataAccessException;
 	public void deleteArticle(long articleNO) throws DataAccessException;
 	public List<ArticleVO> writedAllArticle(String id) throws DataAccessException;
-	public List<ArticleVO> viewArticlePage(BoardIndex boardIdx) throws DataAccessException;
-	public int countAllArticle() throws DataAccessException;
+	public List<ArticleListResponseDTO> viewArticlePage(PageLinkIndex boardIdx) throws DataAccessException;
+	public int countAllArticle(String id) throws DataAccessException;
 }

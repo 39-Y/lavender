@@ -8,6 +8,20 @@
 		/> <result property="content" column="content" /> <result property="imgFileName" 
 		column="imgFileName" /> <result property="writeDate" column="writeDate" /> 
 		<result property="id" column="id" /> </resultMap> -->
+		<resultMap id="ArticleListResponseDTO" type="com.spring.LAB.board.DTO.ArticleListResponseDTO"> 
+			<constructor>
+				<idArg column="articleNO" javaType="long"/>
+				<arg column="title" javaType="string"/>
+				<arg column="content" javaType="string"/>
+				<arg column="id" javaType="string"/>
+				<arg column="dirName" javaType="string"/>
+				<arg column="level" javaType="int"/>
+				<arg column="hits" javaType="int"/>
+				<arg column="modifiedDate" javaType="java.time.LocalDateTime"/>
+			</constructor>
+		
+		</resultMap>
+		
 	<parameterMap type="com.spring.LAB.board.vo.ArticleVO"
 		id="articleVO" />
 	<select id="viewAllArticle"
@@ -20,29 +34,35 @@
 		ORDER SIBLINGS BY articleNO DESC
 	</select>
 	
-	<select id="viewArticlePage" parameterType="int" 
-	 resultType="com.spring.LAB.board.vo.ArticleVO">
+	<select id="viewArticlePage" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
+	 resultType="com.spring.LAB.board.DTO.ArticleListResponseDTO">
 		SELECT * 
  		from (SELECT LEVEL,
         articleNO,
-        parentNO,
         LPAD(' ', 4*(LEVEL-1)) || title title,
         content,
-        writeDate,
         id,
+        dirName,
+        modifiedDate,
         hits
-        FROM articleBoard
+        FROM ArticlesTable
         START WITH parentNO=0
         CONNECT BY PRIOR articleNO=parentNO
         ORDER SIBLINGS BY articleNO DESC)
 		where rownum between  #{articleStartNum} And #{articleEndNum}
+			<if test="id != null">
+				and id = #{id}
+			</if>
 	</select>
 	
-	<select id="countAllArticle" resultType="int">
+	<select id="countAllArticle" parameterType="string" resultType="int">
 		select count(*) from articleBoard
+		<if test="id != null">
+			where id = #{id}
+		</if>
 	</select>
 	
-	<select id="viewArticle" parameterType="com.spring.LAB.board.ect.BoardIndex" 
+	<select id="viewArticle" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
 	 resultType="com.spring.LAB.board.vo.ArticleVO">
 		select * from articleBoard where articleNO = #{articleNO}
 	</select>

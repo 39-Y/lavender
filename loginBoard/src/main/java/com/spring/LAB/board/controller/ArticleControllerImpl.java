@@ -6,65 +6,58 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.LAB.board.ect.BoardIndex;
+import com.spring.LAB.board.DTO.ArticleWriteRequestDto;
+import com.spring.LAB.board.domain.PageLinkIndex;
 import com.spring.LAB.board.service.ArticleService;
+import com.spring.LAB.board.service.ArticlesJpaService;
 import com.spring.LAB.board.vo.ArticleVO;
 import com.spring.LAB.member.vo.MemberVO;
 
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @RestController("articleController")
 public class ArticleControllerImpl implements ArticleController{
-	@Autowired ArticleService articleService;
+	final ArticleService articleService; //myBatis
+	final ArticlesJpaService articlesService; //jpa 
 
 	@Override
-	@GetMapping(value="/lavender/mainboard")
+	@GetMapping(value="/lavender/mainboard1")
 	public ModelAndView mainBoardPage(HttpServletRequest request) {
 			ModelAndView modelAndView = new ModelAndView("/board/mainboard");
-			int articlesTotal = articleService.countAllArticle();
+			/*int articlesTotal = articleService.countAllArticle();
 			if(articlesTotal == 0) {
 				return modelAndView;
 			}
-			BoardIndex boardIdx = new BoardIndex(articlesTotal);
-			List<ArticleVO> articleList = articleService.viewArticlePage(boardIdx);
-			Map boardIdxMap = boardIdx.getBoardIdx(articleList);
-			modelAndView.addObject("boardIdxMap", boardIdxMap);
+			PageLinkIndex pageLinkIdx = new PageLinkIndex(articlesTotal);
+			
+			//modelAndView.addObject("pageLinkIdxMap", pageLinkIdxMap);*/
 			return modelAndView;
 	}
 	// rest로 표현
-	@RequestMapping(value="/lavender/mainboard/{id}")
-	public ResponseEntity<Map> mainBoardIdStory(@PathVariable String id) {
-		List articleList= (List<ArticleVO>) articleService.writedAllArticle(id);
-		Map test = new HashMap();
-		test.put("list", articleList);
-		return new ResponseEntity<Map>(test, HttpStatus.OK);
+	@PostMapping(value="/lavender/write")
+	public Long save(@RequestBody ArticleWriteRequestDto articleDto) {
+		return articlesService.save(articleDto);
 	}
 	
 	@Override
