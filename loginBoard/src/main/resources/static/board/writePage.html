@@ -8,15 +8,15 @@
 			charset="utf-8"></script>
 		<form action="" method="post" name="writeForm">
 			<div id="writeForm">
-				<input hidden="hidden" name="id" th:value="${session.memberVO.id}"/>
-				<input th:if="${parentNO} != null" hidden="hidden" name="parentNO" th:value="${parentNO}"/>
-				<input type="text" name="title" placeholder="제목" id="articleTitle">
-				<textarea name="content" id="writeArticle" rows="15" cols="100"
+			<!--	<input hidden="hidden" name="id" th:value="${session.memberVO.id}" id="id"/>-->
+				<input th:if="${parentNO} != null" hidden="hidden" name="parentNO" th:value="${parentNO}" id="parentNO"/>
+				<input type="text" name="title" placeholder="제목" id="title">
+				<textarea name="content" id="content" rows="15" cols="100"
 					placeholder="글을 작성해주세요">
 	     		</textarea>
 				<div class="articleSubmitDiv">
 					<input type="button" onclick="submitArticle()"
-						class="btn btn-primary btn-user btn-block " id="articleSubmit"
+						class="btn btn-primary btn-user btn-block " id="btn-save"
 						value="발행하기">
 				</div>
 			</div>
@@ -26,17 +26,17 @@
         var oEditors = [];
         nhn.husky.EZCreator.createInIFrame({
          oAppRef: oEditors,
-         elPlaceHolder: "writeArticle",
+         elPlaceHolder: "content",
          sSkinURI: "/edit/SmartEditor2Skin.html",
          fCreator: "createSEditor2"
         });
         
         function submitArticle(){
-        	oEditors.getById["writeArticle"].exec("UPDATE_CONTENTS_FIELD", [])
+        	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", [])
         	let writeForm = document.writeForm;
         	let p = "<p>&nbsp;"
         	let _p="</p>"
-        	let content = document.getElementById("writeArticle").value
+        	let content = document.getElementById("content").value
         	let _content = content.replaceAll(p,"");
         	let title = writeForm.title.value;
         	let id = writeForm.id.value;
@@ -48,7 +48,7 @@
 					}
         	else if(_content == '') {
        	    alert("내용을 입력해주세요.");
-       	    oEditors.getById["writeArticle"].exec("FOCUS");
+       	    oEditors.getById["content"].exec("FOCUS");
        	    return
        	  } 
         	else {

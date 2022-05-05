@@ -1,7 +1,11 @@
 package com.spring.LAB.board.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,13 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class ArticleIndexController {
 	final ArticlesJpaService jpaService;
 	final ArticleService articleService;
-	
 	@GetMapping("/main") 
-	public String main(@RequestParam(required = false) String id, 
-										 @RequestParam(required = false) String page){
-		System.out.println("id: "+id);
-		System.out.println("page: "+page);
-		return "main";
+	public void main() { 
+		ModelAndView m = new ModelAndView("/main1");
+		List list = new ArrayList();
+		list.add(1);
+		m.addObject("list",list);
+	}
+	
+	@GetMapping("/imgtest") 
+	public String imgtest() {
+		return "/board/imgtest";
 	}
 	
 	@GetMapping(value="/mainboard")

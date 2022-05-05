@@ -334,7 +334,7 @@
     	var tempFile,
     		sUploadURL;
     	
-    	sUploadURL= '/lavender/articleboard/imgupload'; 	//upload URL
+    	sUploadURL= '/articles/write/imgupload'; 	//upload URL
     	
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {
@@ -356,13 +356,14 @@
 			method : "post",
 			onload : function(res){ // 요청이 완료되면 실행될 콜백 함수
 				var sResString = res._response.responseText;
+				console.log("string: "+sResString);
 				if (res.readyState() == 4) {
 					if(sResString.indexOf("NOTALLOW_") > -1){
 						var sFileName = sResString.replace("NOTALLOW_", "");
 						alert("이미지 파일(jpg,gif,png,bmp)만 업로드 하실 수 있습니다. ("+sFileName+")");
 					}else{
 						//성공 시에  responseText를 가지고 array로 만드는 부분.
-						makeArrayFromString(res._response.responseText);
+						makeArrayFromString(res._response.responseText, tempFile);
 					}
 				}
 			},
@@ -376,11 +377,13 @@
 		oAjax.request(tempFile);
     }
     
-    function makeArrayFromString(sResString){
+
+    function makeArrayFromString(sResString, tempFile){
     	var	aTemp = [],
     		aSubTemp = [],
     		htTemp = {}
     		aResultleng = 0;
+			let fileName;
     	
  		try{
  			if(!sResString || sResString.indexOf("sFileURL") < 0){
@@ -389,17 +392,30 @@
  			aTemp = sResString.split("&");
 	    	for (var i = 0; i < aTemp.length ; i++){
 	    		if( !!aTemp[i] && aTemp[i] != "" && aTemp[i].indexOf("=") > 0){
-	    			aSubTemp = aTemp[i].split("=");
-	    			htTemp[aSubTemp[0]] = aSubTemp[1];
-	    		}
+	    			  aSubTemp = aTemp[i].split("=");
+							htTemp[aSubTemp[0]] = aSubTemp[1];
+					}
 	 		}
  		}catch(e){}
- 		
- 		aResultleng = aResult.length;
+
+		/*	let reader = new FileReader();
+			reader.readAsDataURL(tempFile);
+			reader.onload= function(){
+				let url = reader.result;
+				htTemp['sFileURL'] = url;
+				aResultleng = aResult.length;
+    		aResult[aResultleng] = htTemp;
+				if(aResult.length == nImageFileCount){
+					setPhotoToEditor(aResult); 
+					aResult = null;
+					window.close();
+				}
+			};*/
+ 			aResultleng = aResult.length;
     	aResult[aResultleng] = htTemp;
     	
     	if(aResult.length == nImageFileCount){
-    		setPhotoToEditor(aResult); 
+				setPhotoToEditor(aResult); 
     		aResult = null;
     		window.close();
     	}
@@ -479,7 +495,7 @@
  	function callFileUploader (){
 	console.log("callfileuploader")
  		oFileUploader = new jindo.FileUploader(jindo.$("uploadInputBox"),{
- 			sUrl  : location.href.replace(/\/[^\/]*$/, '') + '/lavender/writeboard/imgupload',	//샘플 URL입니다.
+ 			sUrl  : location.href.replace(/\/[^\/]*$/, '') + '/articles/write/imgupload',	//샘플 URL입니다.
  	        sCallback : location.href.replace(/\/[^\/]*$/, '') + '/callback.html',	//업로드 이후에 iframe이 redirect될 콜백페이지의 주소
  	    	sFiletype : "*.jpg;*.png;*.bmp;*.gif",						//허용할 파일의 형식. ex) "*", "*.*", "*.jpg", 구분자(;)	
  	    	sMsgNotAllowedExt : 'JPG, GIF, PNG, BMP 확장자만 가능합니다',	//허용할 파일의 형식이 아닌경우에 띄워주는 경고창의 문구

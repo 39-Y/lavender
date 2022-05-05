@@ -11871,16 +11871,16 @@ body.sidebar-toggled footer.sticky-footer {
 	flex-direction: column;
 	align-items: center;
 }
-#articleTitle{
+#title{
 	margin-bottom: 1vh;
 	height: 10vh;
 	width: 90%;
 	border-bottom: 1px solid #858796;
 }
-#writeArticle{
+#content{
 	width: 90%;
 }
-#articleSubmit{
+#btn-save{
 	margin: 20px 0;
 	width: 15%;
 }

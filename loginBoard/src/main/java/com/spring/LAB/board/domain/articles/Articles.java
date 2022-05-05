@@ -51,22 +51,17 @@ public class Articles extends BaseTimeEntity{
 	@Column(nullable = false)
 	private String content;
 	
-	@Column
-	private String dirName;
-	
 	@Column(nullable = false)
 	private String id;
 	
 	@Builder
 	public Articles(String title,
 									String content,
-									String dirName,
 									String id,
 									Long parentNO) 
 	{
 		this.title = title;
 		this.content = content;
-		this.dirName = dirName;
 		this.id = id;
 		this.parentNO = parentNO;
 	}

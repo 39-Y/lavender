@@ -11,19 +11,17 @@ public class ArticleListResponseDTO {
 	private String title;
 	private String content;
 	private String id;
-	private String dirName; 
 	private int level;
 	private int hits;
 	private long articleNO;
 	private LocalDateTime modifiedDate;
 	private String parsedModifiedDate;
-	private String parsedModifiedTime;
+	private String minParsedModifiedDate;
 	
 	public ArticleListResponseDTO(long articleNO,
 																String title, 
 																String content, 
 																String id,
-																String dirName,
 																int level,
 																int hits,
 																LocalDateTime modifiedDate ) {
@@ -31,7 +29,6 @@ public class ArticleListResponseDTO {
 		this.title = title;
 		this.content = content;
 		this.id = id;
-		this.dirName = dirName;
 		this.level = level;
 		this.hits = hits;
 		this.modifiedDate = modifiedDate;
@@ -39,8 +36,8 @@ public class ArticleListResponseDTO {
 	}
 	public void parseModifiedDate() {
 		parsedModifiedDate = modifiedDate.format
-														(DateTimeFormatter.ofPattern("yyyy.MM.dd. HH:MM:ss"));
-		parsedModifiedTime = modifiedDate.format
+														(DateTimeFormatter.ofPattern("yyyy.MM.dd. HH:mm:ss"));
+		minParsedModifiedDate = modifiedDate.format
 				(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
 	}
 }

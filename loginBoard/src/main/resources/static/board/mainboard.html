@@ -63,7 +63,7 @@
 												<a th:href="@{/lavender/mainboard(id=${article.id})}" 
 													 th:text="${article.id}"></a>
 											</td>
-											<td th:text="${article.parsedModifiedTime}"></td>
+											<td th:text="${article.minParsedModifiedDate}"></td>
 											<td th:text="${article.hits}"></td>
 											<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
 												<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">

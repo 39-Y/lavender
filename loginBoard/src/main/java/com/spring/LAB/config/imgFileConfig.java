@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+/*@Configuration
 public class imgFileConfig implements WebMvcConfigurer{
 	private String resourcePath = "file:///C:/img/";
 	private String connectPath = "/img/**";
@@ -13,4 +13,4 @@ public class imgFileConfig implements WebMvcConfigurer{
       registry.addResourceHandler(connectPath)
               .addResourceLocations(resourcePath);
   }
-}
+}*/

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8">
+<title>test1</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<form enctype="multipart/form-data" action="/imgtest" method="post">
+			<input type="file" name="file">
+			<input type="submit" value="이미지 전송">
+		</form>
+	</th:block>
+</body>
+
+</html>
