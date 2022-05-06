@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.spring.LAB.board.DTO.ImgFileRequestDTO;
 
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
 public class RequestImgFileImplement {
 	private ImgFileRequestDTO imgFileDTO;
 	private HttpSession session;
@@ -48,7 +50,8 @@ public class RequestImgFileImplement {
 
 	private String setFileName() {
 		LocalDateTime currentDate = LocalDateTime.now();
-		String fileName = currentDate.format(DateTimeFormatter.ofPattern("yyyymmddHHMMssSSS"));
+		String fileName = currentDate.format(DateTimeFormatter.ofPattern("yyyymmddHHMMssSSS"))
+				+String.valueOf((int)(Math.random()*100000));
 		return fileName;
 	}
 }

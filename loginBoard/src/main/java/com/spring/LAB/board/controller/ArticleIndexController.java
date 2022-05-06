@@ -42,6 +42,7 @@ public class ArticleIndexController {
 			modelAndView.addObject("pageLinkIdx", pageLinkIdx);
 			return modelAndView;
 	}
+	
 	@GetMapping(value="/articles/write")
 	public String articlesWrite() {
 		

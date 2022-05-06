@@ -8,7 +8,7 @@ import com.spring.LAB.board.vo.ArticleVO;
 
 public interface ArticleController {
 	public ModelAndView viewArticle(long artricleNO);
-	public ModelAndView writeArticle(HttpServletRequest request, ArticleWriteRequestDto article);
+	public long writeArticle(HttpServletRequest request, ArticleWriteRequestDto article);
 	public ModelAndView modArticle(HttpServletRequest request, ArticleVO articleVO);
 	public ModelAndView deleteArticle(HttpServletRequest request,long artricleNO);
 }

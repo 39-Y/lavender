@@ -12,6 +12,7 @@ public class ImgFileRequestDTO {
 	private String fileName;
 	private String mimeType;
 	private byte[] fileByte;
+	private long articleNO;
 	
 	@Builder
 	public ImgFileRequestDTO(String originalName,
@@ -22,5 +23,8 @@ public class ImgFileRequestDTO {
 		this.fileName = fileName;
 		this.mimeType = mimeType;
 		this.fileByte = fileByte;
+	}
+	public void setArticleNO(long articleNO) {
+		this.articleNO = articleNO;
 	}
 }
