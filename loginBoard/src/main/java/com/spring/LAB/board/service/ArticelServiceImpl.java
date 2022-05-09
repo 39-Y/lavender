@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.LAB.board.DAO.ArticleDAO;
-import com.spring.LAB.board.DTO.ArticleListResponseDTO;
+import com.spring.LAB.board.DTO.article.ArticleListResponseDTO;
 import com.spring.LAB.board.domain.PageLinkIndex;
 import com.spring.LAB.board.vo.ArticleVO;
 

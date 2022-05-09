@@ -2,7 +2,7 @@ package com.spring.LAB.board.service;
 
 import org.springframework.stereotype.Service;
 
-import com.spring.LAB.board.DTO.ArticleWriteRequestDto;
+import com.spring.LAB.board.DTO.article.ArticleWriteRequestDto;
 import com.spring.LAB.board.domain.articles.ArticleRepository;
 
 import lombok.RequiredArgsConstructor;

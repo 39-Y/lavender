@@ -3,7 +3,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.LAB.board.DTO.ArticleWriteRequestDto;
+import com.spring.LAB.board.DTO.article.ArticleWriteRequestDto;
 import com.spring.LAB.board.vo.ArticleVO;
 
 public interface ArticleController {

@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.LAB.board.DTO.ArticleWriteRequestDto;
-import com.spring.LAB.board.DTO.ImgFileRequestDTO;
+import com.spring.LAB.board.DTO.article.ArticleWriteRequestDto;
+import com.spring.LAB.board.DTO.imgFile.ImgFileDTO;
+import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 import com.spring.LAB.board.domain.imgUpload.ImgFilesListSession;
 import com.spring.LAB.board.domain.imgUpload.RequestImgFileImplement;
 import com.spring.LAB.board.domain.imgUpload.imgFileLoadHeader;
 import com.spring.LAB.board.service.ArticleService;
 import com.spring.LAB.board.service.ArticlesJpaService;
+import com.spring.LAB.board.service.imgFile.ImgFileJpaService;
+import com.spring.LAB.board.service.imgFile.ImgFileService;
 import com.spring.LAB.board.vo.ArticleVO;
 import com.spring.LAB.member.vo.MemberVO;
 
@@ -34,8 +37,9 @@ import lombok.RequiredArgsConstructor;
 @RestController("articleController")
 public class ArticleControllerImpl implements ArticleController{
 	final ArticleService articleService; //myBatis
-	final ArticlesJpaService articlesService; //jpa 
-	private HttpSession session;
+	final ArticlesJpaService articleJpaService; //jpa 
+	final ImgFileJpaService imgFileJpaService;
+	final ImgFileService imgFileService;
 
 	@PostMapping(value="/imgtest")
 	public ResponseEntity imgTest(@RequestParam("file") MultipartFile file) throws IOException {
@@ -53,7 +57,7 @@ public class ArticleControllerImpl implements ArticleController{
 	// rest로 표현
 	@PostMapping(value="/articles/write")
 	public Long save(@RequestBody ArticleWriteRequestDto articleDto) {
-		return articlesService.save(articleDto);
+		return articleJpaService.save(articleDto);
 	}
 
 	@Override
@@ -71,30 +75,25 @@ public class ArticleControllerImpl implements ArticleController{
 	 */
 
 	@GetMapping(value="/articles/img/{fileName}")
-	public ResponseEntity viewImgFile(HttpServletRequest req, 
+	public ResponseEntity viewImgFile(HttpServletRequest request, 
 			@PathVariable("fileName") String fileName) throws IOException {
-		session= req.getSession();
-		ImgFileRequestDTO imgDTO = null;
-		List<ImgFileRequestDTO> imgFilesList = 
-				(List<ImgFileRequestDTO>) session.getAttribute("imgFilesList");
-		if(imgFilesList != null) {
-			for(ImgFileRequestDTO imgFile : imgFilesList) {
-				if(fileName.equals(imgFile.getFileName())) {
-
-				}
-			}
-		}
-		else {
-
-		}
 		imgFileLoadHeader imgFileHeader = new imgFileLoadHeader();
+		ImgFilesListSession imgFileListSession = new ImgFilesListSession(request);
+		List<ImgFileRequestDTO> imgFilesList = imgFileListSession.findImgFiles(fileName);
+		ImgFileDTO imgDTO = null;
+		if(imgFilesList != null) 
+			imgDTO = imgFilesList.get(0);
+		else {
+			 imgDTO = imgFileService.findFileName(fileName);
+		}
+		
 		return imgFileHeader.load(imgDTO);
 	}
 
 	@PostMapping(value="/articles/write/imgupload")
-	public ResponseEntity<String> imgUpload(HttpServletRequest req) throws IOException {
-		RequestImgFileImplement imgImplement = new RequestImgFileImplement(req);
-		imgImplement.loadToSession();
+	public ResponseEntity<String> imgUpload(HttpServletRequest request) throws IOException, InterruptedException {
+		RequestImgFileImplement imgImplement = new RequestImgFileImplement(request);
+		imgImplement.imgLoadToSession();
 		String fileName = imgImplement.getFileName();
 		String fileInfo = "&bNewLine=true&sFileName=" + fileName
 				+ "&sFileURL=" + "/articles/img/" + fileName;
@@ -104,11 +103,13 @@ public class ArticleControllerImpl implements ArticleController{
 	@Override
 	@PostMapping(value="/lavender/writeboard")
 	public long writeArticle(HttpServletRequest request, ArticleWriteRequestDto article) {
-		long articleNO = articlesService.save(article);
-		ImgFilesListSession imgFileSession = new ImgFilesListSession(request);
+		long articleNO = articleJpaService.save(article);
+		ImgFilesListSession imgFileListSession = new ImgFilesListSession(request);
 		List<ImgFileRequestDTO> imgFilesList 
-								= imgFileSession.existImgFiles(article.getContent(), articleNO); 
-		//img service 
+						= imgFileListSession.findImgFiles(article.getContent(), articleNO);
+		if(imgFilesList !=null) {
+			imgFileJpaService.saveAll(imgFilesList);
+		}
 		return articleNO;
 	}
 	
@@ -119,13 +120,13 @@ public class ArticleControllerImpl implements ArticleController{
 	public ModelAndView writeArticlePage(HttpServletRequest request) {
 		try {
 			ModelAndView modelAndView = new ModelAndView("board/writePage");
+			ImgFilesListSession imgFileListSession = new ImgFilesListSession(request);
+			imgFileListSession.initList();
 			/*HttpSession session = request.getSession();
 			if(session.getAttribute("memberVO") == null) {
 				modelAndView.setViewName("redirect:/lavender/nidlogin");
 				return modelAndView;
 			}
-			if(session.getAttribute("dirName") != null)
-				session.removeAttribute("dirName");
 			if(request.getParameter("parentNO") != null) {
 				long parentNO = Long.parseLong(request.getParameter("parentNO"));
 				System.out.println("parentNO: "+parentNO);

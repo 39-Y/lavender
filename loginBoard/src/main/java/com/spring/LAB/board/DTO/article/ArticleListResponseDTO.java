@@ -1,4 +1,4 @@
-package com.spring.LAB.board.DTO;
+package com.spring.LAB.board.DTO.article;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

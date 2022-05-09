@@ -6,45 +6,63 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.spring.LAB.board.DTO.ImgFileRequestDTO;
+import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
 public class ImgFilesListSession {
-	private List<ImgFileRequestDTO> imgFilesList;
 	private HttpSession session;
-	private long articleNO;
+	private String content;
+	private List<ImgFileRequestDTO> existImgFileList;
 	
 	public ImgFilesListSession(HttpServletRequest request) {
 		session = request.getSession();
-		imgFilesList = (List<ImgFileRequestDTO>) session.getAttribute("imgFilesList");
 	}
 	
-	public List<ImgFileRequestDTO> getImgFilesList() {
-		return imgFilesList;
+	public List<ImgFileRequestDTO> getAttribute() {
+		return (List<ImgFileRequestDTO>) session.getAttribute("imgFilesList");
+	}
+	
+	public void initList() {
+		session.setAttribute("imgFilesList", new ArrayList<ImgFileRequestDTO>());
+	}
+	
+	public void setAttributeList(List<ImgFileRequestDTO> list) {
+		session.setAttribute("imgFilesList", list);
 	}
 	
 	public void deleteList() {
 		session.removeAttribute("imgFilesList");
 	}
 	
-	public List<ImgFileRequestDTO> existImgFiles(String content){
-		return existImgFiles(content,0L);
+	public List<ImgFileRequestDTO> findImgFiles(String content){
+		return findImgFiles(content, 0L);
 	}
 	
-	public List<ImgFileRequestDTO> existImgFiles(String content, Long articleNO){
-		this.articleNO = articleNO;
-		List<ImgFileRequestDTO> existImgFile = new ArrayList<ImgFileRequestDTO>();
-		if(imgFilesList == null) return null;
+	public List<ImgFileRequestDTO> findImgFiles(String content, Long articleNO){
+		List<ImgFileRequestDTO> imgFilesList = getAttribute();
+		if(imgFilesList == null || imgFilesList.size() == 0) 
+			return null;
+		this.content = content;
 		for(ImgFileRequestDTO img: imgFilesList) {
-			if(content.indexOf(img.getFileName())>0 ) {
-				setArticleNO(img);
-				existImgFile.add(img);
-			}
+			if(articleNO>0)
+				setExistImgFileList(img, articleNO);
+			else
+				setExistImgFileList(img);
 		}
-		return existImgFile;
-	}
-	private void setArticleNO(ImgFileRequestDTO img) {
-		if(articleNO>0) 
-			img.setArticleNO(articleNO);
+		return existImgFileList;
 	}
 	
+	private void setExistImgFileList(ImgFileRequestDTO img, Long articleNO) {
+		if(content.indexOf("<img src=\"/articles/img/"+img.getFileName())> -1 ) {
+			existImgFileList = new ArrayList<ImgFileRequestDTO>();
+			img.setArticleNO(articleNO);
+			existImgFileList.add(img);
+		}
+	}
+	
+	private void setExistImgFileList(ImgFileRequestDTO img) {
+		if(content.indexOf(img.getFileName())> -1) {
+			existImgFileList = new ArrayList<ImgFileRequestDTO>();
+			existImgFileList.add(img);
+		}
+	}
 }

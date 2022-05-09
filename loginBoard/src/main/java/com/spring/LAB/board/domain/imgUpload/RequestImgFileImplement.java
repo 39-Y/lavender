@@ -6,42 +6,41 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.spring.LAB.board.DTO.ImgFileRequestDTO;
+import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestImgFileImplement {
 	private ImgFileRequestDTO imgFileDTO;
-	private HttpSession session;
 	private List<ImgFileRequestDTO> imgFilesList;
 	private String fileName;
+	private ImgFilesListSession imgListSession;
 	
 	public RequestImgFileImplement(HttpServletRequest request) throws IOException {
-		session = request.getSession();
+		imgListSession = new ImgFilesListSession(request);
 		String originalName = request.getHeader("file-Name");
 		fileName = setFileName();
 		String mimeType=request.getHeader("file-Type");
 		InputStream is = request.getInputStream();
 		byte[] fileByte = is.readAllBytes();
-		imgFileDTO = ImgFileRequestDTO.builder()
+		imgFileDTO = (ImgFileRequestDTO) ImgFileRequestDTO.builder()
 																	.originalName(originalName)
 																	.fileName(fileName)
 																	.mimeType(mimeType)
 																	.fileByte(fileByte)
 																	.build();
+		
 	}
 	
-	public void loadToSession() {
-		imgFilesList = (List<ImgFileRequestDTO>) session.getAttribute("imgFilesList");
-		if(imgFilesList == null) { 
-			imgFilesList =  new ArrayList<ImgFileRequestDTO>();
-		}
+	public void imgLoadToSession() throws InterruptedException {
+		imgFilesList = imgListSession.getAttribute();
 		imgFilesList.add(imgFileDTO);
-		session.setAttribute("imgFilesList", imgFilesList);	
+		imgListSession.setAttributeList(imgFilesList);
 	}
 	
 	public String getFileName() {

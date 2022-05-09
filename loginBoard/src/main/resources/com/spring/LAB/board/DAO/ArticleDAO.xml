@@ -8,19 +8,7 @@
 		/> <result property="content" column="content" /> <result property="imgFileName" 
 		column="imgFileName" /> <result property="writeDate" column="writeDate" /> 
 		<result property="id" column="id" /> </resultMap> -->
-		<resultMap id="ArticleListResponseDTO" type="com.spring.LAB.board.DTO.ArticleListResponseDTO"> 
-			<constructor>
-				<idArg column="articleNO" javaType="long"/>
-				<arg column="title" javaType="string"/>
-				<arg column="content" javaType="string"/>
-				<arg column="id" javaType="string"/>
-				<arg column="dirName" javaType="string"/>
-				<arg column="level" javaType="int"/>
-				<arg column="hits" javaType="int"/>
-				<arg column="modifiedDate" javaType="java.time.LocalDateTime"/>
-			</constructor>
-		
-		</resultMap>
+
 		
 	<parameterMap type="com.spring.LAB.board.vo.ArticleVO"
 		id="articleVO" />
@@ -35,7 +23,7 @@
 	</select>
 	
 	<select id="viewArticlePage" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
-	 resultType="com.spring.LAB.board.DTO.ArticleListResponseDTO">
+	 resultType="com.spring.LAB.board.DTO.article.ArticleListResponseDTO">
 		SELECT * 
  		from (SELECT LEVEL,
         articleNO,

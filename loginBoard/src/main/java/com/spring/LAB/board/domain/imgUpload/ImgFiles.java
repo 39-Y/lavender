@@ -53,11 +53,13 @@ public class ImgFiles {
 									String originalName,
 									String fileName,
 									String mimeType,
-									byte[] fileByte) {
+									byte[] fileByte,
+									long imgNO) {
 		this.articleNO = articleNO;
 		this.originalName = originalName;
 		this.fileName = fileName;
 		this.mimeType = mimeType;
 		this.fileByte = fileByte;
+		this.imgNO = imgNO;
 	}
 }

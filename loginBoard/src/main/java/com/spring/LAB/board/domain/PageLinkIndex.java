@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.spring.LAB.board.DTO.ArticleListResponseDTO;
+import com.spring.LAB.board.DTO.article.ArticleListResponseDTO;
 
 public class PageLinkIndex {
 	private int pageCurrentNum = 1;

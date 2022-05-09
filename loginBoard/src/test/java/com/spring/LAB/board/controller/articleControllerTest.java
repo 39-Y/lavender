@@ -15,7 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.spring.LAB.board.DTO.ArticleWriteRequestDto;
+import com.spring.LAB.board.DTO.article.ArticleWriteRequestDto;
 import com.spring.LAB.board.domain.articles.ArticleRepository;
 import com.spring.LAB.board.domain.articles.Articles;
 

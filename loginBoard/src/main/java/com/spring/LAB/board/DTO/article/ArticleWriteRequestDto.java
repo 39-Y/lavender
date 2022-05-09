@@ -1,4 +1,4 @@
-package com.spring.LAB.board.DTO;
+package com.spring.LAB.board.DTO.article;
 
 import com.spring.LAB.board.domain.articles.Articles;
 

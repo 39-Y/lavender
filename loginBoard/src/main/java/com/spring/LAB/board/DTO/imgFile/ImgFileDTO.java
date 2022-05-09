@@ -1,12 +1,11 @@
-package com.spring.LAB.board.DTO;
+package com.spring.LAB.board.DTO.imgFile;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 @Getter
 @NoArgsConstructor
-public class ImgFileRequestDTO {
+public class ImgFileDTO {
 	private long imgNO;
 	private String originalName;
 	private String fileName;
@@ -15,16 +14,15 @@ public class ImgFileRequestDTO {
 	private long articleNO;
 	
 	@Builder
-	public ImgFileRequestDTO(String originalName,
-													 String fileName,
-													 String mimeType, 
-													 byte[] fileByte) {
-		this.originalName = originalName;
+	public ImgFileDTO(String fileName,
+										String originalName,
+										String mimeType, 
+										byte[] fileByte,
+										long articleNO) {
 		this.fileName = fileName;
+		this.originalName = originalName;
 		this.mimeType = mimeType;
 		this.fileByte = fileByte;
-	}
-	public void setArticleNO(long articleNO) {
 		this.articleNO = articleNO;
 	}
 }
