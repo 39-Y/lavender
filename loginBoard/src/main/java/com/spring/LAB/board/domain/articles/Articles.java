@@ -25,10 +25,7 @@ import lombok.NoArgsConstructor;
 @DynamicUpdate
 @Table(name = "ArticlesTable")
 
-
-
 public class Articles extends BaseTimeEntity{
-	
 	@SequenceGenerator(
     name="article_Seq", 
     sequenceName="art_seq",
@@ -65,5 +62,9 @@ public class Articles extends BaseTimeEntity{
 		this.id = id;
 		this.parentNO = parentNO;
 	}
-	
+
+	public void update(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 }

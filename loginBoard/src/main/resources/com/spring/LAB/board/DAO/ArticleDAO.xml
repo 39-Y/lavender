@@ -8,86 +8,45 @@
 		/> <result property="content" column="content" /> <result property="imgFileName" 
 		column="imgFileName" /> <result property="writeDate" column="writeDate" /> 
 		<result property="id" column="id" /> </resultMap> -->
-
-		
-	<parameterMap type="com.spring.LAB.board.vo.ArticleVO"
-		id="articleVO" />
-	<select id="viewAllArticle"
-	 resultType="com.spring.LAB.board.vo.ArticleVO">
-		SELECT level,
-		articleNO, parentNO, title, writeDate, id, hits
-		FROM articleBoard
-		START WITH parentNO=0
-		CONNECT BY PRIOR articleNO=parentNO
-		ORDER SIBLINGS BY articleNO DESC
-	</select>
 	
-	<select id="viewArticlePage" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
+	<select id="findArticlePage" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
 	 resultType="com.spring.LAB.board.DTO.article.ArticleListResponseDTO">
 		SELECT * 
  		from (SELECT LEVEL,
+ 				ROWNUM as rownumber,
         articleNO,
         LPAD(' ', 4*(LEVEL-1)) || title title,
         content,
         id,
-        dirName,
         modifiedDate,
         hits
         FROM ArticlesTable
         START WITH parentNO=0
         CONNECT BY PRIOR articleNO=parentNO
-        ORDER SIBLINGS BY articleNO DESC)
-		where rownum between  #{articleStartNum} And #{articleEndNum}
+        ORDER SIBLINGS BY articleNO DESC) e
+				where e.rownumber between #{articleStartNum} And #{articleEndNum}
 			<if test="id != null">
 				and id = #{id}
 			</if>
 	</select>
 	
+	<select id="findByArticleNO" parameterType="long" 
+	 resultType="com.spring.LAB.board.DTO.article.ArticleListResponseDTO">
+		select * from articlesTable where articleNO = #{articleNO}
+	</select>
+	
 	<select id="countAllArticle" parameterType="string" resultType="int">
-		select count(*) from articleBoard
+		select count(*) from articlesTable
 		<if test="id != null">
 			where id = #{id}
 		</if>
 	</select>
 	
-	<select id="viewArticle" parameterType="com.spring.LAB.board.domain.PageLinkIndex" 
-	 resultType="com.spring.LAB.board.vo.ArticleVO">
-		select * from articleBoard where articleNO = #{articleNO}
-	</select>
-
-	<select id="writedAllArticle" parameterType="string" resultType="com.spring.LAB.board.vo.ArticleVO">
-		select * from articleBoard where id=#{id}
-	
-	</select>
-	
-
-	<update id="modArticle" parameterMap="articleVO">
-		UPDATE articleBoard SET
-		content=#{content},
-		title=#{title},
-		dirName=#{dirName, jdbcType = VARCHAR}
-		WHERE articleNO=#{articleNO}
-	</update>
-	
 	<update id="upHits" parameterType="_long">
-		UPDATE articleBoard SET
+		UPDATE articlesTable SET
 		hits=hits+1
 		WHERE articleNO=#{articleNO}
 	</update>
-
-	<insert id="addArticle" parameterMap="articleVO">
-		<selectKey keyProperty="articleNO" resultType="_long" order="BEFORE">
-    	select art_seq.nextval from dual
-    </selectKey>
-		insert into articleBoard(articleNO, title, content, dirName, id, parentNO)
-		values(
-			#{articleNO}, 
-			#{title}, 
-			#{content}, 
-			#{dirName, jdbcType = VARCHAR}, 
-			#{id}, 
-			#{parentNO})
-	</insert>
 	
 	<delete id="deleteArticle" parameterType="_long">
 		DELETE FROM articleBoard 

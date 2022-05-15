@@ -1,13 +1,15 @@
 package com.spring.LAB.board.service.imgFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.spring.LAB.board.DTO.imgFile.ImgFileListResponseDTO;
+import com.spring.LAB.board.DTO.article.ArticleUpdateRequestDTO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 import com.spring.LAB.board.domain.imgUpload.ImgFileRepository;
+import com.spring.LAB.board.domain.imgUpload.ImgFiles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,23 @@ public class ImgFileJpaService {
 		repository.saveAll(imgFileList.stream()
 																	.map(ImgFileRequestDTO::toEntity)
 																	.collect(Collectors.toList()));
+	}
+	public void deleteAll(List<Long> notExistFileList) {
+		for(Long imgNO:notExistFileList) {
+			ImgFiles imgFile = repository.findById(imgNO)
+																	 .orElseThrow(
+																			 () -> new IllegalArgumentException(
+																					 	"해당 이미지가 없습니다. imgNO: "+imgNO));
+			repository.delete(imgFile);
+		}
+	}
+	
+	public void deleteNotExistImgFiles(ArticleUpdateRequestDTO article) {
+		List<ImgFiles> oldImgFiles = repository.findAllByArticleNO(article.getArticleNO());
+		for(ImgFiles imgFile: oldImgFiles) {
+			if(article.getContent().indexOf(imgFile.getFileName())<0) 
+				repository.delete(imgFile);
+		}
 	}
 
 }

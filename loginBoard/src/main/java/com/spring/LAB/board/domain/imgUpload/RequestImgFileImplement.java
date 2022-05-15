@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.spring.LAB.board.DTO.imgFile.ImgFileDTO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
 import lombok.NoArgsConstructor;
@@ -22,13 +23,14 @@ public class RequestImgFileImplement {
 	private ImgFilesListSession imgListSession;
 	
 	public RequestImgFileImplement(HttpServletRequest request) throws IOException {
-		imgListSession = new ImgFilesListSession(request);
+		HttpSession session = request.getSession();
+		imgListSession = new ImgFilesListSession(session);
 		String originalName = request.getHeader("file-Name");
 		fileName = setFileName();
 		String mimeType=request.getHeader("file-Type");
 		InputStream is = request.getInputStream();
 		byte[] fileByte = is.readAllBytes();
-		imgFileDTO = (ImgFileRequestDTO) ImgFileRequestDTO.builder()
+		imgFileDTO = ImgFileRequestDTO.builder()
 																	.originalName(originalName)
 																	.fileName(fileName)
 																	.mimeType(mimeType)

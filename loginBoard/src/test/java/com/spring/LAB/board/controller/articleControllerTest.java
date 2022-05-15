@@ -64,5 +64,11 @@ public class articleControllerTest {
 		assertThat(all.get(1).getCreateDate()).isAfter(now);
 		assertThat(all.get(1).getModifiedDate().isAfter(now));
 	}
-	
+	@Test
+	public void updateArticles() {
+		String title = "업데이트된 제목";
+		String content = "업데이트된 내용";
+		Long articleNO = 85L;
+		
+	}
 }

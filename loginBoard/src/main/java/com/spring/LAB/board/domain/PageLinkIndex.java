@@ -47,6 +47,9 @@ public class PageLinkIndex {
 	}
 	
 	public void setArticlesList(List<ArticleListResponseDTO> articlesList) {
+		for(ArticleListResponseDTO article:articlesList) {
+			article.parseModifiedDate();
+		}
 		this.articlesList = articlesList;
 	}
 	

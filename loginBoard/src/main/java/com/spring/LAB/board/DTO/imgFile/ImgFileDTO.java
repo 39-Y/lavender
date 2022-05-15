@@ -1,6 +1,5 @@
 package com.spring.LAB.board.DTO.imgFile;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Getter
@@ -13,16 +12,4 @@ public class ImgFileDTO {
 	private byte[] fileByte;
 	private long articleNO;
 	
-	@Builder
-	public ImgFileDTO(String fileName,
-										String originalName,
-										String mimeType, 
-										byte[] fileByte,
-										long articleNO) {
-		this.fileName = fileName;
-		this.originalName = originalName;
-		this.mimeType = mimeType;
-		this.fileByte = fileByte;
-		this.articleNO = articleNO;
-	}
 }

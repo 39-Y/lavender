@@ -7,17 +7,18 @@
 		
 	<form method="post" name="writeForm">
 		<div id="writeForm">
-			<input hidden="hidden" name="id" th:value="${session.memberVO.id}" id="id"/>
-			<input th:if="${parentNO} != null" hidden="hidden" name="parentNO" th:value="${parentNO}" id="parentNO"/>
-			<div class="write flexColumnCenter" th:if="${article == null}">
-				<input type="text" name="title" placeholder="제목" id="title">
+			<input hidden="hidden"/>
+			<div class="update flexColumnCenter" th:if="${article != null}">
+				<input hidden="hidden" name="articleNO" th:value="${article.articleNO}" id="articleNO"/>
+				<input type="text" name="title" id="title"
+							 th:value="${article.title}">
 				<textarea name="content" id="content" rows="15" cols="100"
-					placeholder="글을 작성해주세요">
+					th:utext="${article.content}">
 	     	</textarea>
 			</div>
 			<div class="articleSubmitDiv">
 				<button type="button"
-					class="btn btn-primary btn-user btn-block btn-submit" id="btn-save">
+					class="btn btn-primary btn-user btn-block btn-submit" id="btn-update">
 					발행하기</button>
 			</div>
 		</div>

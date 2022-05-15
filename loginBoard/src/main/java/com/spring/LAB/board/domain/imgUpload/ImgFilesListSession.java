@@ -8,14 +8,13 @@ import javax.servlet.http.HttpSession;
 
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 public class ImgFilesListSession {
-	private HttpSession session;
+	final private HttpSession session;
 	private String content;
 	private List<ImgFileRequestDTO> existImgFileList;
-	
-	public ImgFilesListSession(HttpServletRequest request) {
-		session = request.getSession();
-	}
 	
 	public List<ImgFileRequestDTO> getAttribute() {
 		return (List<ImgFileRequestDTO>) session.getAttribute("imgFilesList");
@@ -39,9 +38,10 @@ public class ImgFilesListSession {
 	
 	public List<ImgFileRequestDTO> findImgFiles(String content, Long articleNO){
 		List<ImgFileRequestDTO> imgFilesList = getAttribute();
+		this.content = content;
 		if(imgFilesList == null || imgFilesList.size() == 0) 
 			return null;
-		this.content = content;
+		
 		for(ImgFileRequestDTO img: imgFilesList) {
 			if(articleNO>0)
 				setExistImgFileList(img, articleNO);
@@ -53,7 +53,7 @@ public class ImgFilesListSession {
 	
 	private void setExistImgFileList(ImgFileRequestDTO img, Long articleNO) {
 		if(content.indexOf("<img src=\"/articles/img/"+img.getFileName())> -1 ) {
-			existImgFileList = new ArrayList<ImgFileRequestDTO>();
+			initExistImgFileList();
 			img.setArticleNO(articleNO);
 			existImgFileList.add(img);
 		}
@@ -61,8 +61,13 @@ public class ImgFilesListSession {
 	
 	private void setExistImgFileList(ImgFileRequestDTO img) {
 		if(content.indexOf(img.getFileName())> -1) {
-			existImgFileList = new ArrayList<ImgFileRequestDTO>();
+			initExistImgFileList();
 			existImgFileList.add(img);
+		}
+	}
+	private void initExistImgFileList() {
+		if(existImgFileList == null) {
+			existImgFileList = new ArrayList<ImgFileRequestDTO>();
 		}
 	}
 }

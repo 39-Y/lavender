@@ -23,7 +23,7 @@
 				<div class="card-header py-3 mainBoardHeader">
 					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
 						<div th:if="${session.memberVO != null}">
-							<a href="/lavender/writeboard" 
+							<a href="/articles/write" 
 								 class="btn btn-primary btn-icon-split writeButton" >
 								 게시판 글쓰기</a>
 						</div>
@@ -51,24 +51,25 @@
 							</tbody>
 							<tbody th:if="${pageLinkIdx.articlesTotalNum} != 0">
 								<tr th:each="article:${pageLinkIdx.articlesList}">
-											<td>
-												<span th:if="${article.level}>1"> 
-													<span th:each="space:${#numbers.sequence(1, article.level-1)}">
-														&nbsp;&nbsp; </span> 
-												↳</span> 
-												<a th:href="@{/lavender/article(articleNO=${article.articleNO})}"
-													 th:text="${article.title}"></a>
-											</td>
-											<td>
-												<a th:href="@{/lavender/mainboard(id=${article.id})}" 
-													 th:text="${article.id}"></a>
-											</td>
-											<td th:text="${article.minParsedModifiedDate}"></td>
-											<td th:text="${article.hits}"></td>
-											<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
-												<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">
-												 	 삭제</a>
-											</td>
+									<td>
+										<span th:text=${article.articleNO} class="articleNO"></span>
+										<span th:if="${article.level}>1"> 
+											<span th:each="space:${#numbers.sequence(1, article.level-1)}">
+												&nbsp;&nbsp; </span> 
+										↳</span> 
+										<a th:href="@{/articles/{articleNO}(articleNO=${article.articleNO})}"
+											 th:text="${article.title}"></a>
+									</td>
+									<td>
+										<a th:href="@{/mainboard/1(id=${article.id})}" 
+											 th:text="${article.id}"></a>
+									</td>
+									<td th:text="${article.minParsedModifiedDate}"></td>
+									<td th:text="${article.hits}"></td>
+									<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
+										<a th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}">
+										 	 삭제</a>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -79,14 +80,19 @@
 		<section class="flexCenter">
 			<div class="mainTag" th:if="${pageLinkIdx.articlesTotalNum != 0}">
 				<span th:if="${pageLinkIdx.prePage > 0}">
-					<a th:href="@{/lavender/mainboard(page=${pageLinkIdx.prePage })}">
+					<a th:href="@{/mainboard/{page}(page=${pageLinkIdx.prePage })}">
 						이전 </a>
 				</span>
 				<span th:each="page: ${pageLinkIdx.pageIdxNumsList}">
-					<a th:text="${page}" th:href="@{/lavender/mainboard(page=${page})}"></a>
+					<a th:if="${pageLinkIdx.id != null}" 
+						 th:text="${page}" 
+						 th:href="@{/mainboard/{page}(id=${pageLinkIdx.id},page=${page})}"></a>
+					<a th:if="${pageLinkIdx.id == null}" 
+						 th:text="${page}" 
+						 th:href="@{/mainboard/{page}(page=${page})}"></a>
 				</span>
 				<span th:if="${pageLinkIdx.nextPage > 0}">
-					<a th:href="@{/lavender/mainboard(page=${pageLinkIdx.nextPage})}">
+					<a th:href="@{/mainboard/{page}(page=${pageLinkIdx.nextPage})}">
 						다음</a>
 				</span>
 			</div>

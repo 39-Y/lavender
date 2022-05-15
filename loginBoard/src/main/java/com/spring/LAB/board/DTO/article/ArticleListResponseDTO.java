@@ -35,9 +35,9 @@ public class ArticleListResponseDTO {
 		
 	}
 	public void parseModifiedDate() {
-		parsedModifiedDate = modifiedDate.format
+		this.parsedModifiedDate = modifiedDate.format
 														(DateTimeFormatter.ofPattern("yyyy.MM.dd. HH:mm:ss"));
-		minParsedModifiedDate = modifiedDate.format
+		this.minParsedModifiedDate = modifiedDate.format
 				(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
 	}
 }

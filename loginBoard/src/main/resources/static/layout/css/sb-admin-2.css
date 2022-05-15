@@ -11866,11 +11866,12 @@ body.sidebar-toggled footer.sticky-footer {
 #modRow{
 	height: 83vh;
 }
-#writeForm{
+.flexColumnCenter{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
+
 #title{
 	margin-bottom: 1vh;
 	height: 10vh;
@@ -11880,7 +11881,7 @@ body.sidebar-toggled footer.sticky-footer {
 #content{
 	width: 90%;
 }
-#btn-save{
+.btn-submit{
 	margin: 20px 0;
 	width: 15%;
 }
@@ -11940,4 +11941,8 @@ img{
 .flexCenter{
 	display: flex;
 	justify-content: center;
+}
+.articleNO{
+	font-size: 12px;
+	margin: 0 1rem;
 }
