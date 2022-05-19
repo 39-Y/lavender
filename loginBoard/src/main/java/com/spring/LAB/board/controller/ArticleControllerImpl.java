@@ -94,7 +94,6 @@ public class ArticleControllerImpl implements ArticleController{
 	@Override
 	@PutMapping(value="/articles/update")
 	public long updateArticle(@RequestBody ArticleUpdateRequestDTO article) {
-		
 		/*List<ImgFileListResponseDTO> oldImgFileNames = imgFileService.findByArticleNO(articleNO);
 		
 		List <Long> notExistImgFiles = new ArrayList<Long>();
@@ -119,8 +118,7 @@ public class ArticleControllerImpl implements ArticleController{
 	@Override
 	@DeleteMapping("/articles/delete")
 	public void deleteArticle(@RequestBody long articleNO) {
-		
-		
+		articleJpaService.delete(articleNO);
 		/*try {
 			String loginId = memberVO.getId();
 			String writerId = articleVO.getId();
@@ -134,7 +132,5 @@ public class ArticleControllerImpl implements ArticleController{
 		} catch (Exception e) {
 			modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
 		}*/
-
 	}
-
 }

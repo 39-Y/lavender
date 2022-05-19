@@ -41,15 +41,15 @@ let main = {
 	},
 	
 	delete: function(){
-		let data = $('#btn-delete').val();
+		let data = $('#deleteNO').val();
 		console.log("delete-no: "+data);
 		let deleteUrl = "/articles/delete";
 		let ajaxType="DELETE";
 		let doneUrl = "/mainboard/1"
-		main.checkData(data, deleteUrl, ajaxType, doneUrl);
+		main.send(data, deleteUrl, ajaxType, doneUrl);
 	},
 	
-	checkData: function(data, ajaxUrl, ajaxType){
+	checkData: function(data, ajaxUrl, ajaxType, doneUrl){
 		let content = data.content;
 		let title = data.title;
 		let _title = title.replace(/(\s*)/g, "");

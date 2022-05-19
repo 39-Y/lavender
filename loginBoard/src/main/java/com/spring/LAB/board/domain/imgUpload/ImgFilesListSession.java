@@ -66,8 +66,7 @@ public class ImgFilesListSession {
 		}
 	}
 	private void initExistImgFileList() {
-		if(existImgFileList == null) {
+		if(existImgFileList == null) 
 			existImgFileList = new ArrayList<ImgFileRequestDTO>();
-		}
 	}
 }

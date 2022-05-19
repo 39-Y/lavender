@@ -40,11 +40,13 @@
 						 class="btn btn-icon-split writeButton nomalButton"> 답글</a>
 				</span>
 				<span th:if="${session.memberVO != null} and ${article.id}==${session.memberVO.id}">
-					<a
-					th:href="@{/lavender/modboard(articleNO=${article.articleNO})}"
-					class="btn btn-icon-split writeButton nomalButton"> 수정</a> <a
-					th:href="@{/lavender/deleteboard(articleNO=${article.articleNO})}"
-					class="btn btn-icon-split writeButton nomalButton"> 삭제</a>
+				<input type="hidden" th:value="${article.articleNO}" name="articleNO" id="deleteNO">
+					<button type="button" 
+									id="btn-delete"
+							 		class="btn btn-icon-split writeButton nomalButton"
+							 		> 삭제</button>
+					<a th:href="@{/articles/update/{articleNO}(articleNO=${article.articleNO})}"
+							 class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
 				</span>
 			</article>
 			<article>

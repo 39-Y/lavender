@@ -1,6 +1,5 @@
 package com.spring.LAB.board.service.imgFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,10 +37,9 @@ public class ImgFileJpaService {
 	
 	public void deleteNotExistImgFiles(ArticleUpdateRequestDTO article) {
 		List<ImgFiles> oldImgFiles = repository.findAllByArticleNO(article.getArticleNO());
-		for(ImgFiles imgFile: oldImgFiles) {
-			if(article.getContent().indexOf(imgFile.getFileName())<0) 
-				repository.delete(imgFile);
-		}
+		oldImgFiles.stream()
+							 .filter(img -> article.getContent().indexOf(img.getFileName())<0)
+							 .forEach(img -> repository.delete(img));
 	}
 
 }

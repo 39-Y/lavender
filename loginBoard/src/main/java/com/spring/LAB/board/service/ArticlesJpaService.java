@@ -18,18 +18,22 @@ public class ArticlesJpaService {
 	public Long save(ArticleWriteRequestDto articleDto) {
 		return repository.save(articleDto.toEntity()).getArticleNO();
 	}
+	private Articles findById(Long articleNO) {
+		return repository.findById(articleNO)
+										 .orElseThrow(
+												 ()-> new IllegalArgumentException
+												 ("해당 게시글이 없습니다. id="+articleNO));
+	}
 	
 	public Long update(ArticleUpdateRequestDTO articleDto) {
 		long articleNO = articleDto.getArticleNO();
-		Articles articles = repository.findById(articleNO)
-																	.orElseThrow(
-																			()-> new IllegalArgumentException
-																			("해당 게시글이 없습니다. id="+articleNO));
+		Articles articles = findById(articleNO);
 		articles.update(articleDto.getTitle(), articleDto.getContent());
 		return articleNO;
 	}
 	
 	public void delete(Long articleNO) {
-		Articles articles = repository.findById(articleNO)
+		Articles articles = findById(articleNO);
+		repository.delete(articles);
 	}
 }

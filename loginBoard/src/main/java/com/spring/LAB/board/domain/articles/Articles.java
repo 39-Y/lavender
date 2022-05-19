@@ -1,11 +1,18 @@
 package com.spring.LAB.board.domain.articles;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -13,6 +20,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.spring.LAB.board.domain.BaseTimeEntity;
+import com.spring.LAB.board.domain.imgUpload.ImgFiles;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -50,6 +58,10 @@ public class Articles extends BaseTimeEntity{
 	
 	@Column(nullable = false)
 	private String id;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@JoinColumn(name="articleNO")
+	private List<ImgFiles> imgFiles = new ArrayList<>();
 	
 	@Builder
 	public Articles(String title,
