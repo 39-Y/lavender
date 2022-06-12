@@ -8,26 +8,7 @@
   </head>
   <body>
     <th:block layout:fragment="content">
-      <table>
-        <tr>
-          <td>ID</td>
-          <td>PW</td>
-          <td>이름</td>
-          <td>이메일</td>
-          <td>가입일</td>
-        </tr>
-        
-        <tr th:each="member : ${memberList}">
-          <td th:text="${member.id}"></td>
-          <td th:text="${member.pw}"></td>
-          <td th:text="${member.name}"></td>
-          <td th:text="${member.email}"></td>
-          <td th:text="${member.joinDate}"></td>
-        </tr> 
-        <tr>
-          <td></td>
-        </tr>
-      </table>
-  </th:block>
+      <h2>Hello This is the Lanveder!</h2>
+  	</th:block>
   </body>
 </html>

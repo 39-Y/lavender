@@ -18,7 +18,7 @@
 						&nbsp&nbsp 조회 
 						<span th:text="${article.hits}"></span>
 					</div>
-					<div th:if="${session.memberVO != null} and ${article.id}==${session.memberVO.id}">
+					<div th:if="${session.member != null} and ${article.id}==${session.member.email}">
 						<a th:href="@{/articles/update/{articleNO}(articleNO=${article.articleNO})}"
 							 class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
 						<button type="button" id="btn-delete"
@@ -32,14 +32,14 @@
 			</article>
 		</section>
 		<section class="mainBoardHeader boardButtons">
-			<article th:if="${session.memberVO != null}">
+			<article th:if="${session.member != null}">
 				<span>
 					<a href="/lavender/writeboard"
 						class="btn btn-primary btn-icon-split writeButton">글쓰기</a> 
 					<a th:href="@{/articles/write(parentNO=${article.articleNO})}" 
 						 class="btn btn-icon-split writeButton nomalButton"> 답글</a>
 				</span>
-				<span th:if="${session.memberVO != null} and ${article.id}==${session.memberVO.id}">
+				<span th:if="${session.member != null} and ${article.id}==${session.member.email}">
 				<input type="hidden" th:value="${article.articleNO}" name="articleNO" id="deleteNO">
 					<button type="button" 
 									id="btn-delete"

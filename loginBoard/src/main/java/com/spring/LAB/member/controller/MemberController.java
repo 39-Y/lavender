@@ -9,8 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.LAB.member.vo.MemberVO;
 
 public interface MemberController {
-	public ModelAndView listMember(HttpServletRequest request, HttpServletResponse response) 
-	 throws Exception;
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) 
 	 throws Exception;
 	public ModelAndView register(HttpServletRequest request, MemberVO memberVO) 

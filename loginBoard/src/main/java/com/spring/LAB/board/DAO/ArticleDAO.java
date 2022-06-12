@@ -6,7 +6,6 @@ import org.springframework.dao.DataAccessException;
 
 import com.spring.LAB.board.DTO.article.ArticleListResponseDTO;
 import com.spring.LAB.board.domain.PageLinkIndex;
-import com.spring.LAB.board.vo.ArticleVO;
 
 @Mapper
 public interface ArticleDAO {

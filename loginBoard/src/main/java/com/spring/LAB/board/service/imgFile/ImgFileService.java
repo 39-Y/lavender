@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.LAB.board.DAO.imgFile.ImgFileDAO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileListResponseDTO;
+import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,4 +31,5 @@ public class ImgFileService {
 	public int countImgFiles(Long articleNO) {
 		return imgFileDAO.countImgFiles(articleNO);
 	}
+	
 }

@@ -22,21 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.LAB.member.service.MemberService;
 import com.spring.LAB.member.vo.MemberVO;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController("memberController")
+@RequiredArgsConstructor
 public class MemberControllerImpl implements MemberController{
-	@Autowired 
-	private MemberService memberService;
+	private final MemberService memberService;
+	private final HttpSession session;
 
 	MemberVO memberVO = new MemberVO();
-	@Override
-	@RequestMapping(value="/lavender/main.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView listMember(HttpServletRequest request, HttpServletResponse response) 
-			throws Exception {
-		List<MemberVO> memberList = memberService.listMember();
-		ModelAndView modelAndView = new ModelAndView("main");
-		modelAndView.addObject("memberList",memberList);
-		return modelAndView;
-	}
 
 	@Override
 	@PostMapping(value="/lavender/nidlogin")
@@ -69,12 +63,11 @@ public class MemberControllerImpl implements MemberController{
 		modelAndView.setViewName(view);
 		return modelAndView;
 	}
-	@GetMapping(value="/lavender/nidlogin")
-	public ModelAndView logInPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session = request.getSession();
+	@GetMapping(value="/nidlogin")
+	public ModelAndView logInPage() throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		if(session.getAttribute("memberVO")!=null)
-			modelAndView.setViewName("redirect:/lavender/main.do");
+			modelAndView.setViewName("redirect:/");
 		else
 			modelAndView.setViewName("login/loginPage");
 		return modelAndView;

@@ -2,7 +2,6 @@ package com.spring.LAB.board.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.LAB.board.DTO.article.ArticleUpdateRequestDTO;
 import com.spring.LAB.board.DTO.article.ArticleWriteRequestDto;
 import com.spring.LAB.board.DTO.imgFile.ImgFileDTO;
-import com.spring.LAB.board.DTO.imgFile.ImgFileListResponseDTO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 import com.spring.LAB.board.domain.imgUpload.ImgFilesListSession;
 import com.spring.LAB.board.domain.imgUpload.RequestImgFileImplement;
@@ -32,8 +28,6 @@ import com.spring.LAB.board.service.ArticleService;
 import com.spring.LAB.board.service.ArticlesJpaService;
 import com.spring.LAB.board.service.imgFile.ImgFileJpaService;
 import com.spring.LAB.board.service.imgFile.ImgFileService;
-import com.spring.LAB.board.vo.ArticleVO;
-import com.spring.LAB.member.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -73,11 +67,11 @@ public class ArticleControllerImpl implements ArticleController{
 		imgImplement.imgLoadToSession();
 		String fileName = imgImplement.getFileName();
 		String fileInfo = "&bNewLine=true&sFileName=" + fileName
-				+ "&sFileURL=" + "/articles/img/" + fileName;
+				+ "&sFileURL=" + "/article/img/" + fileName;
 		return new ResponseEntity<String> (fileInfo, null, HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/articles/img/{fileName}")
+	@GetMapping(value="/article/img/{fileName}")
 	public ResponseEntity<byte[]> viewImgFile(@PathVariable("fileName") String fileName) 
 																										throws IOException, SQLException {
 		imgFileLoadHeader imgFileHeader = new imgFileLoadHeader();

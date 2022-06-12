@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.spring.LAB.board.DTO.imgFile.ImgFileListResponseDTO;
+import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 
 @Mapper
 public interface ImgFileDAO {
@@ -13,4 +14,5 @@ public interface ImgFileDAO {
 	public Map findByFileName(String fileName);
 	public List<ImgFileListResponseDTO> findByArticleNO(Long articleNO);
 	public int countImgFiles(Long articleNO);
+	//
 }

@@ -13,4 +13,5 @@
 	<select id="countImgFiles" parameterType="long" resultType="int">
 		select count(*) from imgFilesTable where articleNO = #{articleNO}
 	</select>
+
 </mapper>

@@ -1,4 +1,5 @@
-
+let articleUrl = "/article/";
+let mainboardUrl = "/mainboard/1";
 let main = {
 	init: function(){
 		let _this = this;
@@ -21,10 +22,7 @@ let main = {
 			id: $('#id').val(),
 			parentNO: $('#parentNO').val()
 		};
-		let saveUrl = "/articles/write"		
-		let ajaxType="POST"
-		let doneUrl = "/articles/"
-		main.checkData(data, saveUrl, ajaxType, doneUrl);
+		main.checkData(data, "write", "POST", articleUrl);
 	},
 	
 	update: function(){
@@ -34,19 +32,12 @@ let main = {
 			content: $('textarea#content').val(),
 			articleNO: $('#articleNO').val()
 		};
-		let updateUrl = "/articles/update"
-		let ajaxType = "PUT"; 
-		let doneUrl = "/articles/"
-		main.checkData(data, updateUrl, ajaxType, doneUrl);
+		main.checkData(data, "update", "PUT", articleUrl);
 	},
 	
 	delete: function(){
 		let data = $('#deleteNO').val();
-		console.log("delete-no: "+data);
-		let deleteUrl = "/articles/delete";
-		let ajaxType="DELETE";
-		let doneUrl = "/mainboard/1"
-		main.send(data, deleteUrl, ajaxType, doneUrl);
+		main.send(data, "delete", "DELETE", mainboardUrl);
 	},
 	
 	checkData: function(data, ajaxUrl, ajaxType, doneUrl){
@@ -73,7 +64,7 @@ let main = {
 	send:function(data, ajaxUrl, ajaxType, doneUrl){
 		$.ajax({
 				type: ajaxType,
-				url: ajaxUrl,
+				url: "/articles/"+ajaxUrl,
 				contentType:'application/json; charset=utf-8',
 				data: JSON.stringify(data),
 				dataType: 'text'

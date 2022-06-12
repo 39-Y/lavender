@@ -52,7 +52,7 @@ public class ImgFilesListSession {
 	}
 	
 	private void setExistImgFileList(ImgFileRequestDTO img, Long articleNO) {
-		if(content.indexOf("<img src=\"/articles/img/"+img.getFileName())> -1 ) {
+		if(content.indexOf("<img src=\"/article/img/"+img.getFileName())> -1 ) {
 			initExistImgFileList();
 			img.setArticleNO(articleNO);
 			existImgFileList.add(img);

@@ -2,7 +2,6 @@ package com.spring.LAB.board.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.LAB.board.DAO.ArticleDAO;
 import com.spring.LAB.board.DTO.article.ArticleListResponseDTO;
 import com.spring.LAB.board.domain.PageLinkIndex;
-import com.spring.LAB.board.vo.ArticleVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +21,7 @@ public class ArticelServiceImpl implements ArticleService{
 	@Override
 	public void findArticlePage (PageLinkIndex boardIdx){
 		List<ArticleListResponseDTO> pageArticleList = articleDAO.findArticlePage(boardIdx);
+		System.out.println("----serviceList: "+pageArticleList.size());
 		boardIdx.setArticlesList(pageArticleList);
 	}
 	

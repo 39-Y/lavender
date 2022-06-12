@@ -29,18 +29,26 @@ public class ArticleIndexController {
 		return "/board/imgtest";
 	}
 	
+	@GetMapping(value="/")
+	public String mainPage(){
+		return "/main";
+	}
+	
 	@GetMapping(value="/mainboard/{page}")
 	public ModelAndView mainBoardPage(@PathVariable String page,
 																		@RequestParam(required = false) String id){
 			ModelAndView modelAndView = new ModelAndView("board/mainboard");
 			int articlesTotal = articleService.countAllArticle(id);
 			PageLinkIndex pageLinkIdx = new PageLinkIndex(page, articlesTotal, id);
+			System.out.println("--------EndNO: " + pageLinkIdx.articleEndNum);
 			articleService.findArticlePage(pageLinkIdx);
+			System.out.println("--------EndNO: " + pageLinkIdx.articleEndNum);
+			System.out.println("--------list: " + pageLinkIdx.articlesList.size());
 			modelAndView.addObject("pageLinkIdx", pageLinkIdx);
 			return modelAndView;
 	}
 	
-		@GetMapping(value="/articles/{articleNO}")
+		@GetMapping(value="/article/{articleNO}")
 	public ModelAndView articlePage(@PathVariable long articleNO,HttpServletRequest request) {
 		ImgFilesListSession imgFileListSession = new ImgFilesListSession(session);
 		imgFileListSession.deleteList();

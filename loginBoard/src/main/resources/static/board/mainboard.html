@@ -22,7 +22,7 @@
 			<div class="card shadow mb-4">
 				<div class="card-header py-3 mainBoardHeader">
 					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
-						<div th:if="${session.memberVO != null}">
+						<div th:if="${session.member != null}">
 							<a href="/articles/write" 
 								 class="btn btn-primary btn-icon-split writeButton" >
 								 게시판 글쓰기</a>
@@ -39,7 +39,7 @@
 									<th>작성자</th>
 									<th>작성일</th>
 									<th>조회</th>
-									<th th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">삭제</th>
+									<!--  <th th:if="${session.member} != null and ${session.member.id}==admin">삭제</th>-->
 								</tr>
 							</thead>
 							<tbody th:if="${pageLinkIdx.articlesTotalNum} == 0">
@@ -57,7 +57,7 @@
 											<span th:each="space:${#numbers.sequence(1, article.level-1)}">
 												&nbsp;&nbsp; </span> 
 										↳</span> 
-										<a th:href="@{/articles/{articleNO}(articleNO=${article.articleNO})}"
+										<a th:href="@{/article/{articleNO}(articleNO=${article.articleNO})}"
 											 th:text="${article.title}"></a>
 									</td>
 									<td>
@@ -66,9 +66,9 @@
 									</td>
 									<td th:text="${article.minParsedModifiedDate}"></td>
 									<td th:text="${article.hits}"></td>
-									<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
+									<!--<td th:if="${session.memberVO} != null and ${session.memberVO.id}==admin">
 										<a id="btn-delete"> 삭제</a>
-									</td>
+									</td>-->
 								</tr>
 							</tbody>
 						</table>

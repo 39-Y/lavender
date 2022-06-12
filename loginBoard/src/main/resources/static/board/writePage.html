@@ -7,7 +7,7 @@
 		
 	<form method="post" name="writeForm">
 		<div id="writeForm">
-			<input hidden="hidden" name="id" th:value="${session.memberVO.id}" id="id"/>
+			<input hidden="hidden" name="id" th:value="${session.member.email}" id="id"/>
 			<input th:if="${parentNO} != null" hidden="hidden" name="parentNO" th:value="${parentNO}" id="parentNO"/>
 			<div class="write flexColumnCenter" th:if="${article == null}">
 				<input type="text" name="title" placeholder="제목" id="title">
