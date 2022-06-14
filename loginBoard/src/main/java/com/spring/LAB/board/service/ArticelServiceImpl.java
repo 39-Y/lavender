@@ -21,7 +21,6 @@ public class ArticelServiceImpl implements ArticleService{
 	@Override
 	public void findArticlePage (PageLinkIndex boardIdx){
 		List<ArticleListResponseDTO> pageArticleList = articleDAO.findArticlePage(boardIdx);
-		System.out.println("----serviceList: "+pageArticleList.size());
 		boardIdx.setArticlesList(pageArticleList);
 	}
 	

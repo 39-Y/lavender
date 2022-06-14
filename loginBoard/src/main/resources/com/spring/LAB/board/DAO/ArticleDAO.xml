@@ -48,8 +48,4 @@
 		WHERE articleNO=#{articleNO}
 	</update>
 	
-	<delete id="deleteArticle" parameterType="_long">
-		DELETE FROM articleBoard 
-		WHERE articleNO=#{articleNO}
-	</delete>
 </mapper>

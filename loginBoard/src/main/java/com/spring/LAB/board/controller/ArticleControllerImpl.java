@@ -40,14 +40,6 @@ public class ArticleControllerImpl implements ArticleController{
 	final ImgFileService imgFileService;
 	final HttpSession session;
 
-	@GetMapping(value="/test")
-	public String tete() {
-		String hi = "preview";
-		session.setAttribute("hi", hi); 
-		String sessionHi = (String)session.getAttribute("hi");
-		return sessionHi;
-	}
-	
 	@Override
 	@PostMapping(value="/articles/write")
 	public long writeArticle(@RequestBody ArticleWriteRequestDto article) {
@@ -88,15 +80,6 @@ public class ArticleControllerImpl implements ArticleController{
 	@Override
 	@PutMapping(value="/articles/update")
 	public long updateArticle(@RequestBody ArticleUpdateRequestDTO article) {
-		/*List<ImgFileListResponseDTO> oldImgFileNames = imgFileService.findByArticleNO(articleNO);
-		
-		List <Long> notExistImgFiles = new ArrayList<Long>();
-		for(ImgFileListResponseDTO imgFile: oldImgFileNames) {
-			if(article.getContent().indexOf(imgFile.getFileName())<0) {
-				notExistImgFiles.add(imgFile.getImgNO());
-			}
-		}
-		*/
 		long articleNO = articleJpaService.update(article);
 		if(imgFileService.countImgFiles(articleNO) > 0)
 			imgFileJpaService.deleteNotExistImgFiles(article);
@@ -113,18 +96,5 @@ public class ArticleControllerImpl implements ArticleController{
 	@DeleteMapping("/articles/delete")
 	public void deleteArticle(@RequestBody long articleNO) {
 		articleJpaService.delete(articleNO);
-		/*try {
-			String loginId = memberVO.getId();
-			String writerId = articleVO.getId();
-			if(loginId.equals(writerId) || loginId.equals("admin")) {
-				articleService.deleteArticle(articleNO);
-				if(articleVO.getDirName() !=null)
-					//deleteImgFile("c:/img/article/",articleVO.getDirName());
-					modelAndView.setViewName("redirect:/lavender/mainboard");
-			}
-			else modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
-		} catch (Exception e) {
-			modelAndView.setViewName("redirect:/lavender/article?articleNO="+articleNO);
-		}*/
 	}
 }

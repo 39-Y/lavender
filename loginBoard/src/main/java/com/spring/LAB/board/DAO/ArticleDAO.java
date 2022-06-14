@@ -14,6 +14,4 @@ public interface ArticleDAO {
 	public int countAllArticle(String id) throws DataAccessException;
 	public void upHits(long articleNO) throws DataAccessException;
 	public void deleteArticle(long articleNO) throws DataAccessException;
-	
-	
 }
