@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.headers().frameOptions().disable()
 	.and().authorizeRequests()
 				.antMatchers("/", "/article/**", "/mainboard/**", "/css/**", "/js/**", "/img/**").permitAll()
-				.antMatchers("/articles/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+				.antMatchers("/articles/**","/member/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
 				.antMatchers("/admin/**").hasRole(Role.ADMIN.name())
 				//.anyRequest().authenticated()
 	.and().formLogin().loginPage("/nidlogin").defaultSuccessUrl("/")

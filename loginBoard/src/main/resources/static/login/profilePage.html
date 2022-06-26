@@ -12,9 +12,6 @@
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
-								<h1 th:if="${param.register} != null" 
-										class="h3 text-gray-900 mb-4">
-										가입을 축하드립니다!</h1>
 								<h1 class="h4 text-gray-900 mb-4">
 										프로필 사진을 설정할 수 있습니다</h1>
 							</div>
@@ -24,20 +21,19 @@
 									th:src="@{/layout/proFileImg/ghost.png}"
 									class="img-profile rounded-circle registerProfileImg"
 									id="preview">
-								<img th:if="${session.imgUrl != null}" 
-										 th:src="${session.imgUrl}"
+								<img th:src="${session.member.profile}"
 									class="img-profile rounded-circle registerProfileImg"
 									id="preview">
-								<h4 th:text="${session.memberVO.id}"></h4>
+								<h4 th:text="${session.member.email}"></h4>
 							</div>
-								<input type="hidden" name="id" th:value="${session.memberVO.id}">
+								<input type="hidden" name="id" th:value="${session.member.email}">
 								<input type="file" name="profileImg" onchange="imgPreview(this)"
 									accept="image/*"><span class="regNotInputId">이미지 파일을 찾을 수 없습니다</span>
 								<hr>
 								<div class="form-group row">
 									<div class="col-sm-6">
 										<a class="btn btn-primary btn-user btn-block nomalButton"
-											href="/lavender/main.do" id="btnDuplicate"> 
+											href="/" id="btnDuplicate"> 
 											건너뛰기 </a>
 									</div>
 									<div class="col-sm-6">

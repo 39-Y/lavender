@@ -118,34 +118,6 @@ function isLoginBlank() {
 					registerForm.submit();
 				}
 			}
-			
-			function isOverlapped(){
-				let space = /\s/gi;
-				let _id = $("#_id").val().replace(space,'');
-				console.log(_id);
-			    if(_id==''){
-			   		document.getElementsByClassName("regNotInputId")[0].style.display = "block";
-						document.getElementsByClassName("regNotCheckedId")[0].style.display = "none";
-			   	 return;
-			    }
-			    $.ajax({
-			       type:"post",
-			       async:true,  
-			       url:"/lavender/register/check",
-			       dataType:"text",
-			       data: {id:_id},
-			    }).done(function (result){
-								console.log("---result: " + result);
-			          if(result =='useable'){
-			       	   $('#btnDuplicate').val("사용할 수 있는 ID입니다");
-			       	   $('#btnDuplicate').prop("disabled", true);
-								 $('#_id').prop("readonly", true);
-								 $('#message').hide();
-			          }else{
-			       	   $('#message').show();
-			          }
-			});  //end ajax	 
-		}
 		
 		function isRightPw(){
 			let modForm = document.modForm;

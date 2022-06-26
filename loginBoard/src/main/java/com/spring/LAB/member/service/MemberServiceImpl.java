@@ -9,14 +9,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.LAB.member.DAO.MemberDAO;
+import com.spring.LAB.member.DTO.GuestRequestDTO;
 import com.spring.LAB.member.vo.*;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-	@Autowired
-	private MemberDAO memberDAO;
-	MemberVO memberVO = new MemberVO();
+	private final MemberDAO memberDAO;
 
 	@Override
 	public List<MemberVO> listMember() throws DataAccessException {
@@ -24,44 +26,19 @@ public class MemberServiceImpl implements MemberService{
 		return memberList;
 	}
 	
-	@Override
+	/*@Override
 	public MemberVO VOMember(String id) throws DataAccessException {	
 		memberVO = memberDAO.VOMember(id);
 		return memberVO;
-	}
+	}*/
 	
 	@Override
-	public boolean isMember(String id, String pw) throws DataAccessException {
-		boolean logOn = false;
-		String result = memberDAO.isMember(id,pw);
-	  logOn = Boolean.valueOf(result);
-		return logOn;
+	public boolean findIsGuest(GuestRequestDTO guest) throws DataAccessException {
+		return Boolean.parseBoolean(memberDAO.findIsGuest(guest));
 	}
 
-	@Override
-	public void addMember(MemberVO memberVO) throws DataAccessException {
-		memberDAO.addMember(memberVO);
+	public boolean findDuplicateGuest(String id) throws DataAccessException{
+		return Boolean.parseBoolean(memberDAO.findDuplicateGuest(id));
 	}
-	@Override
-	public String isOverlapped(String id) throws DataAccessException{
-		String result = memberDAO.isOverlapped(id);
-		return result;
-	}
-
-	@Override
-	public void modMember(MemberVO memberVO) throws DataAccessException {
-		memberDAO.modMember(memberVO);
-	}
-
-	@Override
-	public void deleteMember(String id) throws DataAccessException {
-		memberDAO.deleteMember(id);
-	}
-
-	@Override
-	public void profileMember(String profileImg, String id) throws DataAccessException {
-		memberDAO.profileMember(profileImg, id);
-	}
-	
 	
 }

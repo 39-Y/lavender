@@ -1,12 +1,14 @@
 package com.spring.LAB.board.DTO.imgFile;
 
+import java.io.Serializable;
+
 import com.spring.LAB.board.domain.imgUpload.ImgFiles;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Getter
-public class ImgFileRequestDTO extends ImgFileDTO{
+public class ImgFileRequestDTO extends ImgFileDTO implements Serializable{
 	private String originalName;
 	private String fileName;
 	private String mimeType;

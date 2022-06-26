@@ -198,7 +198,7 @@ a {
 
 a:hover {
   color: #224abe;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a:not([href]):not([class]) {
@@ -10482,6 +10482,10 @@ a:focus {
   color: #3a3b45 !important;
 }
 
+.text-red{
+	color: #e74a3b !important;
+}
+
 .icon-circle {
   height: 2.5rem;
   width: 2.5rem;
@@ -11778,57 +11782,8 @@ body.sidebar-toggled footer.sticky-footer {
 	text-align: center;
 	padding-bottom: 1rem;
 }
-.regNotInputId {
-	display: none;
-	color: var(--red);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotCheckedId{
-	display: none;
-	color: var(--blue);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotInputPw {
-	display: none;
-	color: var(--red);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotInputEmail {
-	display: none;
-	color: var(--red);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotInputName {
-	display: none;
-	color: var(--red);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotmatchPw{
-	display: none;
-	color: var(--blue);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-.regNotEnoughPw{
-	display: none;
-	color: var(--blue);
-	font-size: 8px;
-	padding-bottom: 0.5rem;
-	padding-left: 1rem;
-}
-#message{
-	display: none;
+
+.regNot{
 	color: var(--blue);
 	font-size: 8px;
 	padding-bottom: 0.5rem;
@@ -11844,12 +11799,6 @@ body.sidebar-toggled footer.sticky-footer {
 	font-size: 8px;
 	padding-top: 1rem;
 	padding-left: 2rem;
-}
-#notMatchPw{
-	display: none;
-}
-#notMinPw{
-	display: none;
 }
 #article-title{
 	width: 60%;
@@ -11945,4 +11894,27 @@ img{
 .articleNO{
 	font-size: 12px;
 	margin: 0 1rem;
+}
+.btn-naver{
+  color: #fff;
+  background-color: rgb(15 145 53);
+  border-color: #fff;
+}
+.logo{
+	color: #fff;
+	height: 4.375rem;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 800;
+  padding-top: 3rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  z-index: 1;
+}
+
+.logo:hover{
+	color: #fff;
 }
