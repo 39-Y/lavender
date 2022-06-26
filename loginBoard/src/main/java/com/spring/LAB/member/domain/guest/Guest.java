@@ -72,4 +72,8 @@ public class Guest {
 		this.profile = profile;
 		this.role = Role.GUEST;
 	}
+	
+	public void profileUpdate(String profileUrl) {
+		this.profile = profileUrl;
+	}
 }

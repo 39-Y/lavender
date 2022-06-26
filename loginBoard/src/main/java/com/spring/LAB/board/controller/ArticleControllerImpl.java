@@ -23,7 +23,7 @@ import com.spring.LAB.board.DTO.imgFile.ImgFileDTO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
 import com.spring.LAB.board.domain.imgUpload.ImgFilesListSession;
 import com.spring.LAB.board.domain.imgUpload.RequestImgFileImplement;
-import com.spring.LAB.board.domain.imgUpload.imgFileLoadHeader;
+import com.spring.LAB.board.domain.imgUpload.ImgFileLoadHeader;
 import com.spring.LAB.board.service.ArticleService;
 import com.spring.LAB.board.service.ArticlesJpaService;
 import com.spring.LAB.board.service.imgFile.ImgFileJpaService;
@@ -66,7 +66,7 @@ public class ArticleControllerImpl implements ArticleController{
 	@GetMapping(value="/article/img/{fileName}")
 	public ResponseEntity<byte[]> viewImgFile(@PathVariable("fileName") String fileName) 
 																										throws IOException, SQLException {
-		imgFileLoadHeader imgFileHeader = new imgFileLoadHeader();
+		ImgFileLoadHeader imgFileHeader = new ImgFileLoadHeader();
 		ImgFilesListSession imgFileListSession = new ImgFilesListSession(session);
 		List<ImgFileRequestDTO> imgFilesList = imgFileListSession.findImgFiles(fileName);
 		ImgFileDTO imgDTO = null;

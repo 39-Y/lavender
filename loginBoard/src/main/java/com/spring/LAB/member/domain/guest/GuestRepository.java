@@ -8,5 +8,8 @@ public interface GuestRepository extends JpaRepository<Guest, Long>{
 	public Guest findGuest(String id, String pwd);
 	
 	@Query(value="SELECT * FROM guestTable g WHERE g.id=?1", nativeQuery = true)
-	public Guest findByGuestName(String id);
+	public Guest findGuestByGuestName(String id);
+	
+	@Query(value="SELECT guestId FROM guestTable g WHERE g.id=?1", nativeQuery = true)
+	public Long findGuestIdByGuestName(String id);
 }

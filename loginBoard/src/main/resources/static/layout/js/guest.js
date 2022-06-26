@@ -13,7 +13,7 @@ let guestMain={
 		$('#btn-guest-delete').on('click', function(){
       _this.delete();
 		});
-		$('#btn-guest-profile').on('click', function(){
+		$('#btn-guest-profile').prop("disabled", true).on('click', function(){
       _this.profile();
     });
   },
@@ -32,7 +32,7 @@ let guestMain={
 				}
 				return;
 			}
-		guestMain.send(data,'/register/save','post','/member/profile');
+		guestMain.send(data,'/register/save','post','/profile');
   },
 
 	check:function(){ 
@@ -75,6 +75,7 @@ let guestMain={
 				dataType: 'text'
 			}).done(function(result){
 				if(result=='false'){
+				//if(result=='null'){
 					$('.regNotId').text('아이디와 비밀번호가 일치하지 않습니다');
 					return;
 				}
@@ -89,16 +90,22 @@ let guestMain={
 		if(result){
 			$.ajax({
 				type: "post",
-				url: "/member/delete",
+				url: "/delete",
 				contentType:'application/json; charset=utf-8',
 				data: JSON.stringify("id"),
 				dataType: 'text'
 			}).done(function(){
-				//window.location.href= "/";
+				window.location.href= "/";
 			}).fail(function(error){
 				alert(JSON.stringify(error)+"/n"+"code: "+request.status+"/n"+request.responseText+"/n");
 			});
 		}
+	},
+	
+	profile:function(){
+		profileForm.method = "post";
+		profileForm.action= "/profile";
+		profileForm.submit();
 	},
 	
 	send:function(data, ajaxUrl, ajaxType, doneUrl){
@@ -109,7 +116,7 @@ let guestMain={
 				data: JSON.stringify(data),
 				dataType: 'text'
 			}).done(function(result){
-				window.location.href= doneUrl + result;
+				window.location.href= doneUrl;
 			}).fail(function(error){
 				alert(JSON.stringify(error));
 			});
@@ -162,6 +169,38 @@ let guestMain={
 			$('.regNotPwd').text('비밀번호가 일치하지 않습니다');
 		}
 		return sameValue;
+	},
+	
+	validFileType:function(file){
+		const fileTypes = [
+			"image/apng",
+		  "image/bmp",
+		  "image/gif",
+		  "image/jpeg",
+		  "image/pjpeg",
+		  "image/png",
+		  "image/svg+xml",
+		  "image/tiff",
+		  "image/webp",
+		  "image/x-icon"
+		];
+		return fileTypes.includes(file.type);
+	},
+	
+	imgPreview:function(input){
+		if(input.files && input.files[0]){
+			if(!guestMain.validFileType(input.files[0])){
+				alert("사용가능한 이미지 파일이 아닙니다!");
+				return;
+			}
+			$("#btn-guest-profile").prop("disabled", false);
+			const reader = new FileReader();
+			reader.onload = function(img) {
+				$('#preview').attr('src', img.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
 	}
+	
 };
 guestMain.init();

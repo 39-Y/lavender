@@ -2,7 +2,10 @@ package com.spring.LAB.member.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.LAB.board.domain.imgUpload.RequestImgFileImplement;
+import com.spring.LAB.board.domain.imgUpload.ImgFileLoadHeader;
 import com.spring.LAB.config.auth.LoginMember;
 import com.spring.LAB.config.auth.dto.SessionMember;
+import com.spring.LAB.member.DTO.GuestProfileRequestDTO;
+import com.spring.LAB.member.DTO.GuestProfileResponseDTO;
 import com.spring.LAB.member.DTO.GuestRequestDTO;
 import com.spring.LAB.member.service.GuestJpaService;
 import com.spring.LAB.member.service.MemberService;
@@ -40,33 +47,27 @@ public class MemberController{
 		return memberService.findDuplicateGuest(guest.getId());
 	}
 	
-	@PostMapping(value="/guest/delete")
-	public void jtest()throws Exception {
-		System.out.println("jtest");
-	}
-	
 	@PostMapping(value="/delete")
 	public void deleteMember(@LoginMember SessionMember sessionGuest) throws Exception {
-		System.out.println("deletes: ");
-		guestJpaService.delete(sessionGuest);
+		guestJpaService.delete(sessionGuest.getName());
 		session.removeAttribute("member");
 	}
 	
-	@PostMapping(value="/guest/profile")
-	public ModelAndView setProfileImg(@RequestParam(value="profileImg") MultipartFile profileFile)
-	 throws Exception {
+	@PostMapping(value="/profile")
+	public ModelAndView setProfileImg(@RequestParam(value="profileImg") MultipartFile profileFile,
+																		@LoginMember SessionMember guest) throws Exception {
+		RequestImgFileImplement requestImgImpl = new RequestImgFileImplement(profileFile);
+		GuestProfileRequestDTO guestProfileDTO = requestImgImpl.getGuestProfileRequestDTO();
+		guestJpaService.profileUpdate(guest.getName(), guestProfileDTO);
 		
-		
-		//memberService.profileMember(profileImg, id);
-		//memberVO = memberService.VOMember(id);
-		//session.setAttribute("memberVO", memberVO);
-		//String imgUrl = "/img/profile/"+memberVO.getId()+"/"+memberVO.getProfileImg();
-		//System.out.println("profile-"+imgUrl);
-		//session.setAttribute("imgUrl", imgUrl);
-		
-		ModelAndView modelAndView = new ModelAndView("redirect:/lavender/main.do");
-		return modelAndView;
+		return new ModelAndView("redirect:/");
 	}
-
+	
+	@GetMapping(value="/profile/img/{guestName}")
+	public ResponseEntity viewProfileImg(@PathVariable String guestName){
+		GuestProfileResponseDTO guestProfileResponseDTO = guestJpaService.findProfileByName(guestName);
+		ImgFileLoadHeader imgFileLoadHeader = new ImgFileLoadHeader();
+		return imgFileLoadHeader.load(guestProfileResponseDTO);
+	}
 	
 }

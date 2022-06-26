@@ -11,13 +11,17 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.LAB.board.DTO.imgFile.ImgFileDTO;
 import com.spring.LAB.board.DTO.imgFile.ImgFileRequestDTO;
+import com.spring.LAB.member.DTO.GuestProfileRequestDTO;
 
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestImgFileImplement {
 	private ImgFileRequestDTO imgFileDTO;
+	private GuestProfileRequestDTO guestProfileRequestDTO;
 	private List<ImgFileRequestDTO> imgFilesList;
 	private String fileName;
 	private ImgFilesListSession imgListSession;
@@ -37,6 +41,17 @@ public class RequestImgFileImplement {
 																	.fileByte(fileByte)
 																	.build();
 		
+	}
+	
+	public RequestImgFileImplement(MultipartFile file) throws IOException {
+		guestProfileRequestDTO = GuestProfileRequestDTO.builder()
+									 .fileByte(file.getBytes())
+									 .mimeType(file.getContentType())
+									 .build();
+	}
+	
+	public GuestProfileRequestDTO getGuestProfileRequestDTO() {
+		return guestProfileRequestDTO;
 	}
 	
 	public void imgLoadToSession() throws InterruptedException {

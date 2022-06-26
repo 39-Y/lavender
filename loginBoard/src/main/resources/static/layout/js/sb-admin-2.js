@@ -54,112 +54,8 @@
 
 })(jQuery); // End of use strict
 
-//login Service
-function isLoginBlank() {
-				let loginForm = document.loginForm;
-				let userId = loginForm.userId.value;
-				let userPw = loginForm.userPw.value;
-				if(userId == "" || userId.length == 0){
-					document.getElementsByClassName("notInputPw")[0].style.display = "none";
-					document.getElementsByClassName("notInputId")[0].style.display = "block";
-				}
-				else if(userPw == "" || userPw.length == 0){
-					document.getElementsByClassName("notInputId")[0].style.display = "none";
-					document.getElementsByClassName("notInputPw")[0].style.display = "block";
-				}
-				else{
-					loginForm.method = "post";
-					loginForm.action= "/lavender/nidlogin";
-					loginForm.submit();
-				}
-			}
-			
-			function isRegisterOk() {
-				let registerForm = document.registerForm;
-				let space = /\s/gi;
-				let id = registerForm.id.value.replace(space,'');
-				let pw = registerForm.pw.value;
-				let name = registerForm.name.value.replace(space,'');
-				let email = registerForm.email.value.replace(space,'');
-				let pwCheck= document.getElementById("pwCheck").value;
-				let disabledBtn = document.getElementById('btnDuplicate').disabled;
-				
-				if(!disabledBtn){
-					document.getElementsByClassName("regNotCheckedId")[0].style.display = "block";
-				}
-				else if(name == "" || name.length == 0){
-					document.getElementsByClassName("regNotCheckedId")[0].style.display = "none";
-					document.getElementsByClassName("regNotInputPw")[0].style.display = "none";
-					document.getElementsByClassName("regNotInputName")[0].style.display = "block";
-					document.getElementsByClassName("regNotInputEmail")[0].style.display = "none";
-				}
-				else if(email == "" || email.length == 0){
-					document.getElementsByClassName("regNotInputPw")[0].style.display = "none";
-					document.getElementsByClassName("regNotInputName")[0].style.display = "none";
-					document.getElementsByClassName("regNotInputEmail")[0].style.display = "block";
-				}
-				else if(pw == "" || pw.length == 0){
-					document.getElementsByClassName("regNotInputPw")[0].style.display = "block";
-					document.getElementsByClassName("regNotInputName")[0].style.display = "none";
-					document.getElementsByClassName("regNotInputEmail")[0].style.display = "none";
-				}
-				else if(pw.length<6){
-					document.getElementsByClassName("regNotInputPw")[0].style.display = "none";
-					document.getElementsByClassName("regNotEnoughPw")[0].style.display = "block";
-				}
-				else if(pw != pwCheck){
-					document.getElementsByClassName("regNotmatchPw")[0].style.display = "block";
-					document.getElementsByClassName("regNotEnoughPw")[0].style.display = "none";
-				}
+	
 
-				else{
-					registerForm.method = "post";
-					registerForm.action= "/lavender/register";
-					registerForm.submit();
-				}
-			}
-		
-		function isRightPw(){
-			let modForm = document.modForm;
-			let _id = modForm.id.value;
-			let pwCheck = modForm.pwCheck.value;
-			$.ajax({
-				type:"post",
-			  async:true,  
-			  url:"/lavender/modmember/check",
-			  dataType:"text",
-			  data: {id:_id, pw:pwCheck},
-			}).done(function(result){
-				if(result == 'true'){
-					$('#modForm').show();
-					$('#pwCheck').prop("readonly", true);
-				}
-			});
-		}
-		
-		function modMember(){
-			let modForm = document.modForm;
-			let space = /\s/gi;
-			let pw = modForm.pw.value.replace(space,'');
-			let _pw = modForm._pw.value.replace(space,'');
-			let name = modForm.name.value.replace(space,'');
-			let email = modForm.email.value.replace(space,'');
-			if((pw.length>0)&&(pw.length<6)){
-				$('#notMinPw').show();
-			}
-			else if(pw!=_pw){
-				$('#notMatchPw').show();
-				$('#notMinPw').hide();
-			}
-			else if((pw=="")||(pw==_pw)){
-					modForm.name.value = name;
-					modForm.email.value = email;
-					modForm.method = "post";
-					modForm.action= "/lavender/modmember";
-					modForm.submit();
-					}
-			
-		}
 			let isImgFile = false;
 			function imgPreview(input){
 				if(input.files && input.files[0]){
@@ -184,22 +80,6 @@ function isLoginBlank() {
 					profileForm.submit();
 				}
 			}
-			const fileTypes = [
-			  "image/apng",
-			  "image/bmp",
-			  "image/gif",
-			  "image/jpeg",
-			  "image/pjpeg",
-			  "image/png",
-			  "image/svg+xml",
-			  "image/tiff",
-			  "image/webp",
-			  "image/x-icon"
-			];
 
-			function validFileType(file) {
-			  return fileTypes.includes(file.type);
-			}
-			
 			
 			

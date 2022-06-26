@@ -11856,6 +11856,15 @@ img{
   background-color: var(--darkPupple);
 }
 
+.btn-margin{
+	margin: 0.3rem;
+}
+
+.btn-red{
+	color: rgb(248, 239, 225);
+	background-color: var(--red);
+}
+
 .boardButtons{
 	padding-bottom:10px;
 }
@@ -11881,6 +11890,13 @@ img{
 	justify-content: center;
 	margin: 1.5rem 0;
 }
+
+.flex-space-between{
+	display:flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .mainTag{
 	margin-bottom: 5vh;
 }

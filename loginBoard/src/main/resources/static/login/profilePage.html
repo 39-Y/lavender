@@ -16,33 +16,37 @@
 										프로필 사진을 설정할 수 있습니다</h1>
 							</div>
 							<form class="user" name="profileForm" enctype="multipart/form-data">
-							<div class="flexBlockCenter">
-								<img th:if="${session.imgUrl == null}" 
-									th:src="@{/layout/proFileImg/ghost.png}"
-									class="img-profile rounded-circle registerProfileImg"
-									id="preview">
-								<img th:src="${session.member.profile}"
-									class="img-profile rounded-circle registerProfileImg"
-									id="preview">
-								<h4 th:text="${session.member.email}"></h4>
-							</div>
-								<input type="hidden" name="id" th:value="${session.member.email}">
-								<input type="file" name="profileImg" onchange="imgPreview(this)"
-									accept="image/*"><span class="regNotInputId">이미지 파일을 찾을 수 없습니다</span>
-								<hr>
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<a class="btn btn-primary btn-user btn-block nomalButton"
-											href="/" id="btnDuplicate"> 
-											건너뛰기 </a>
-									</div>
-									<div class="col-sm-6">
-										<input type="button"
-											class="btn btn-primary btn-user btn-block"
-											onclick="setProfile()" value="설정완료" id="btnDuplicate">
-									</div>
-
+								<div class="flexBlockCenter">
+									<img th:src="${session.member.picture}"
+										class="img-profile rounded-circle registerProfileImg"
+										id="preview">
+									<h4 th:text="${session.member.email}"></h4>
 								</div>
+								<div class="flex-space-between">
+									<input type="file" name="profileImg" onchange="guestMain.imgPreview(this)"
+											accept="image/*">
+									<a th:if="${session.member.picture != '/img/ghost.png'}" class="btn btn-icon-split writeButton btn-red btn-margin"
+										 href="/profile/reset" id="btnDuplicate"> 
+										 초기화 </a>
+								</div>
+									<!-- <span class="regNotInputId">이미지 파일을 찾을 수 없습니다</span> -->
+									<hr>
+									<div class="form-group row">
+										<div class="col-sm-6">
+											<a class="btn btn-primary btn-user btn-block nomalButton btn-margin" 
+												href="/" id="btnDuplicate"> 
+												건너뛰기 </a>
+										</div>
+										<div class="col-sm-6">
+											<input type="button"
+												class="btn btn-primary btn-user btn-block btn-margin"
+												value="설정완료" id="btn-guest-profile">
+										</div>
+										<div class="col-sm-6">
+											
+										</div>
+	
+									</div>
 							</form>
 
 
