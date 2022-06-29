@@ -11872,6 +11872,15 @@ img{
 .mainBoardHeader a{
   margin: 1px;
 }
+
+.side-margin-5{
+	margin:0 0.5rem;
+}
+
+.side-margin-10{
+	margin:0 1.6rem;
+}
+
 .registerProfileImg{
 	width: 13rem;
 	height:13rem;
@@ -11891,10 +11900,24 @@ img{
 	margin: 1.5rem 0;
 }
 
-.flex-space-between{
+.flex-space-between-center{
 	display:flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.flex-space-between{
+	display:flex;
+	justify-content: space-between;
+}
+
+.flex{
+	display:flex;
+}
+
+.flex-center{
+	display: flex;
+	justify-content: center;
 }
 
 .mainTag{
@@ -11933,4 +11956,15 @@ img{
 
 .logo:hover{
 	color: #fff;
+}
+
+.max-wide{
+	max-width: 950px;
+	width: 100%;
+}
+
+.absolute{
+	position: absolute;
+	left: 50%;
+	right: 50%
 }

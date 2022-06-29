@@ -59,6 +59,9 @@ public class Articles extends BaseTimeEntity{
 	@Column(nullable = false)
 	private String id;
 	
+	@Column()
+	private String picture;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	@JoinColumn(name="articleNO")
 	private List<ImgFiles> imgFiles = new ArrayList<>();
@@ -67,12 +70,14 @@ public class Articles extends BaseTimeEntity{
 	public Articles(String title,
 									String content,
 									String id,
-									Long parentNO) 
+									Long parentNO,
+									String picture) 
 	{
 		this.title = title;
 		this.content = content;
 		this.id = id;
 		this.parentNO = parentNO;
+		this.picture = picture;
 	}
 
 	public void update(String title, String content) {

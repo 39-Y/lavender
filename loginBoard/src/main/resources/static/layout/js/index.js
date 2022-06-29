@@ -20,7 +20,8 @@ let main = {
 			title: $('#title').val(),
 			content: $('textarea#content').val(),
 			id: $('#id').val(),
-			parentNO: $('#parentNO').val()
+			parentNO: $('#parentNO').val(),
+			picture: $('#picture').val()
 		};
 		main.checkData(data, "write", "POST", articleUrl);
 	},

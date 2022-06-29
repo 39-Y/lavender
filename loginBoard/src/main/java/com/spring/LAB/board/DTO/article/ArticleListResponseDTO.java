@@ -11,6 +11,7 @@ public class ArticleListResponseDTO {
 	private String title;
 	private String content;
 	private String id;
+	private String picture;
 	private int level;
 	private int hits;
 	private long articleNO;
@@ -22,6 +23,7 @@ public class ArticleListResponseDTO {
 																String title, 
 																String content, 
 																String id,
+																String picture,
 																int level,
 																int hits,
 																LocalDateTime modifiedDate ) {
@@ -29,6 +31,7 @@ public class ArticleListResponseDTO {
 		this.title = title;
 		this.content = content;
 		this.id = id;
+		this.picture = picture;
 		this.level = level;
 		this.hits = hits;
 		this.modifiedDate = modifiedDate;

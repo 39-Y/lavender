@@ -6,56 +6,69 @@
 <meta charset="UTF-8">
 <title>test1</title>
 </head>
-<body>
 	<th:block layout:fragment="content">
+		<body>
+		<div class="flex-center">
+		<div class="max-wide">
 		<section class="card shadow mb-4">
 			<article class="card-header py-3 ">
 				<h3 th:text="${article.title}"></h3>
-				<div th:text="${article.id}"></div>
-				<div class="mainBoardHeader small">
+				<div class="flex-space-between">
+				<div class="flex">
+					<a th:href="@{/mainboard/1(id=${article.id})}">
+						<img th:src="${article.picture}"
+							 class="img-profile rounded-circle mainProfileImg"></a>
 					<div>
-						<span th:text="${article.parsedModifiedDate}"></span> 
-						&nbsp&nbsp 조회 
-						<span th:text="${article.hits}"></span>
-					</div>
-					<div th:if="${isAuthor}">
-						<a th:href="@{/articles/update/{articleNO}(articleNO=${article.articleNO})}"
-							 class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
-						<button type="button" id="btn-delete"
-							 class="btn btn-icon-split writeButton nomalButton"> 삭제</button>
+						<a th:href="@{/mainboard/1(id=${article.id})}">
+						<div th:text="${article.id}"></div></a>
+						<div class="mainBoardHeader small">
+							<span th:text="${article.parsedModifiedDate}"></span> 
+							&nbsp&nbsp 조회 
+							<span th:text="${article.hits}"></span>
+						</div>
 					</div>
 				</div>
+				<ul th:if="${isAuthor}" >
+					<a th:href="@{/articles/update/{articleNO}(articleNO=${article.articleNO})}"
+							class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
+					<button type="button" id="btn-delete"
+							class="btn btn-icon-split writeButton nomalButton"> 삭제</button>
+				</ul>
+					
+				</div>
 			</article>
-
 			<article class="card-body">
-				<div th:utext="${article.content}"></div>
+				<div class="side-margin-5" th:utext="${article.content}"></div>
 			</article>
 		</section>
+
 		<section class="mainBoardHeader boardButtons">
 			<article th:if="${session.member != null}">
 				<span>
-					<a href="/lavender/writeboard"
+					<a href="/articles/write"
 						class="btn btn-primary btn-icon-split writeButton">글쓰기</a> 
 					<a th:href="@{/articles/write(parentNO=${article.articleNO})}" 
 						 class="btn btn-icon-split writeButton nomalButton"> 답글</a>
 				</span>
 				<span th:if="${isAuthor}">
-				<input type="hidden" th:value="${article.articleNO}" name="articleNO" id="deleteNO">
+					<input type="hidden" th:value="${article.articleNO}" name="articleNO" id="deleteNO">
 					<button type="button" 
-									id="btn-delete"
-							 		class="btn btn-icon-split writeButton nomalButton"
-							 		> 삭제</button>
+										id="btn-delete"
+										class="btn btn-icon-split writeButton nomalButton"
+										> 삭제</button>
 					<a th:href="@{/articles/update/{articleNO}(articleNO=${article.articleNO})}"
-							 class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
+								class="btn btn-icon-split writeButton nomalButton"> 수정</a> 
 				</span>
 			</article>
 			<article>
-				<a href="/lavender/mainboard"
+				<a href="/mainboard/1"
 					class="btn btn-icon-split writeButton nomalButton">목록</a> <a
 					href="#" class="btn btn-icon-split writeButton nomalButton">▲Top</a>
 			</article>
 		</section>
-
+		</div>
+		</div>
+	</body>
 	</th:block>
-</body>
+
 </html>

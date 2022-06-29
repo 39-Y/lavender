@@ -22,7 +22,7 @@
 										id="preview">
 									<h4 th:text="${session.member.email}"></h4>
 								</div>
-								<div class="flex-space-between">
+								<div class="flex-space-between-center">
 									<input type="file" name="profileImg" onchange="guestMain.imgPreview(this)"
 											accept="image/*">
 									<a th:if="${session.member.picture != '/img/ghost.png'}" class="btn btn-icon-split writeButton btn-red btn-margin"

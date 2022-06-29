@@ -23,7 +23,8 @@
 				<div class="card-header py-3 mainBoardHeader">
 					<h6 class="m-0 font-weight-bold text-primary">게시판 이용방법 알아보기</h6>
 						<div th:if="${session.member != null}">
-							<a href="/articles/write" 
+							<a th:if="${#strings.equals(session.member.role, 'USER')}"
+								 href="/articles/write" 
 								 class="btn btn-primary btn-icon-split writeButton" >
 								 게시판 글쓰기</a>
 						</div>
