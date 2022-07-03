@@ -41,7 +41,7 @@
 - Front
     - Javascript, Jquery, CSS, HTML, ThymeLeaf
 - Back
-    - Java - Java-version 16, SpringBoot, Spring Data JPA, Maven
+    - Java - Java-version 16, SpringBoot, Spring Data JPA, Maven, Oracle, MyBatis
 
 
 ## 개발 기간
