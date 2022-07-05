@@ -33,7 +33,7 @@
 3. 작성자가 쓴 글 : 게시글의 작성자를 검색하여 리스트 정렬
 
 ## 서비스 구조
-![서비스구조](https://user-images.githubusercontent.com/77563814/134013439-f36295cc-39c0-41e7-86b6-19e6a02183c6.jpg)
+![서비스 구조](https://user-images.githubusercontent.com/102135011/177359675-989ff0f6-41a6-4da5-9313-5705d0222293.jpg)
 
 
 ## 기술 스택
