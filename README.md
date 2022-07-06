@@ -51,14 +51,10 @@
 
 ## 기획 & 설계
 
-[기능 명세서](https://www.notion.so/4241cfb8aab64592af099f34b2ccb938)
+[기능 명세서](https://www.notion.so/278e131dcd7b4b68bf8fc472e21052c6)
 
-[페이지 기획서](https://whimsical.com/8-MbpuashuB5aRgSKR6jM14A) → ✨[디자인](https://www.figma.com/file/1FrTtdMDvn53kDvS93GHBL/%EC%B9%B4%ED%8E%98?node-id=0%3A1)
+[API 명세서](https://www.notion.so/API-4f2dbb4b7246483dbf55127db7abdf3d)
 
-[API 명세서](https://www.notion.so/API-0b0cbd9ff7eb46d4b4b21446bf20233d)
+[DB 명세서](https://www.notion.so/DB-d07dd3f074174ddfa9303856d2e32b64)
 
-[API 문서](https://www.notion.so/API-f730b73b41b249a8a394cbbc4dc18213)
-
-[DB 명세서](https://www.notion.so/DB-45d7f01cbc334d40968bd39d2dfe84ad)
-
-![DB](https://user-images.githubusercontent.com/77563814/133954614-b1a28410-baac-4f6b-a1e0-3c35b5d5d93b.png)
+![ERD](https://user-images.githubusercontent.com/102135011/177540616-fec2e013-53a7-40e0-bb65-9e3668e344c2.png)
